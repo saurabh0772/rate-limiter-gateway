@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:alpine
+    container_name: rate-limiter-redis
+    ports:
+      - "6379:6379"
+
+  mongo:
+    image: mongo:6.0
+    container_name: rate-limiter-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+
+  dummy-service:
+    build: ./dummy-service
+    container_name: dummy-service
+    ports:
+      - "3001:3001"
+    depends_on:
+      - redis
+      - mongo
+
+  gateway-service:
+    build: ./gateway-service
+    container_name: gateway-service
+    ports:
+      - "3000:3000"
+    depends_on:
+      - redis
+      - mongo
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - MONGO_URL=mongodb://admin:admin123@mongo:27017/rate-limiter?authSource=admin
+      - DOWNSTREAM_URL=http://dummy-service:3001
