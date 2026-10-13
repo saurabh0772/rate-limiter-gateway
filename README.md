@@ -102,7 +102,7 @@ rate-limiter-gateway/
 
 ```bash
 # 1. Clone
-git clone <your-repo>
+git clone https://github.com/saurabh0772/rate-limiter-gateway.git
 cd rate-limiter-gateway
 
 # 2. Fix for Kernel 6.19+ (if needed) - Use mongo:6.0 in docker-compose.yml
