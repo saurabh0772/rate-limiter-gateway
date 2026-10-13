@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const Redis = require('ioredis');
 const { createProxyMiddleware } = require('http-proxy-middleware');
@@ -6,6 +7,18 @@ const fs = require('fs');
 const ApiKey = require('./models/ApiKey');
 
 const app = express();
+
+app.use(cors({
+    origin: (origin, callback) => {
+        // Allow all for now, but send specific origin back, not '*'
+        callback(null, origin || true);
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key', 'X-Requested-With'],
+    exposedHeaders: ['X-RateLimit-Limit', 'X-RateLimit-Remaining']
+}));
+
 app.use(express.json());
 
 // FIX 1: PORT env se lo, Render 10000 deta hai, local pe 3000
@@ -21,15 +34,6 @@ const luaScript = fs.readFileSync('./lua/rateLimiter.lua', 'utf8');
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log('Mongo Connected'))
     .catch(err => console.error('Mongo Error:', err.message));
-
-// CORS - OPTIONS handle karna must hai warna Vercel se call fail hogi
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-api-key");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    if (req.method === 'OPTIONS') return res.sendStatus(200);
-    next();
-});
 
 // Admin APIs
 app.post('/admin/create-key', async (req, res) => {
