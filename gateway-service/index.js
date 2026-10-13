@@ -74,6 +74,7 @@ app.get('/health', (req, res) => res.json({ status: 'ok', uptime: process.uptime
 // Gateway Middleware - /auth ko bypass MAT karo, bas rate limit check karo
 app.use(async (req, res, next) => {
     // Sirf admin aur health ko bypass karo, /auth ko nahi
+    if (req.method === 'OPTIONS') return next();
     if (req.path.startsWith('/admin') || req.path.startsWith('/health')) return next();
 
     const apiKey = req.headers['x-api-key'];
