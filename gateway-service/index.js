@@ -45,7 +45,6 @@ app.use(async (req, res, next) => {
     if (!keyData) return res.status(403).json({ error: 'Invalid API Key' });
 
     let limitToUse = keyData.limit;
-    if (req.path.startsWith('/auth')) limitToUse = Math.max(keyData.limit, 100);
     console.log('limitToUse for', req.path, ':', limitToUse);
 
     const redisKey = `ratelimit:${apiKey}:${req.path.startsWith('/auth') ? 'auth' : 'api'}`;
