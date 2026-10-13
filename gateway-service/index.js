@@ -72,7 +72,9 @@ app.get('/health', (req, res) => res.json({ status: 'ok', uptime: process.uptime
 
 // Gateway Middleware
 app.use(async (req, res, next) => {
-    if (req.path.startsWith('/admin') || req.path.startsWith('/health')) return next();
+    if (req.path.startsWith('/admin') || req.path.startsWith('/health') || req.path.startsWith('/auth')) {
+        return next();
+    }
 
     const apiKey = req.headers['x-api-key'];
     if (!apiKey) return res.status(401).json({ error: 'API Key missing. Send x-api-key header' });
