@@ -71,10 +71,10 @@ app.get('/admin/keys', async (req, res) => {
 app.get('/health', (req, res) => res.json({ status: 'ok', uptime: process.uptime() }));
 
 // Gateway Middleware
+a// Gateway Middleware - /auth ko bypass MAT karo, bas rate limit check karo
 app.use(async (req, res, next) => {
-    if (req.path.startsWith('/admin') || req.path.startsWith('/health') || req.path.startsWith('/auth')) {
-        return next();
-    }
+    // Sirf admin aur health ko bypass karo, /auth ko nahi
+    if (req.path.startsWith('/admin') || req.path.startsWith('/health')) return next();
 
     const apiKey = req.headers['x-api-key'];
     if (!apiKey) return res.status(401).json({ error: 'API Key missing. Send x-api-key header' });
@@ -83,20 +83,27 @@ app.use(async (req, res, next) => {
         const keyData = await ApiKey.findOne({ key: apiKey });
         if (!keyData) return res.status(403).json({ error: 'Invalid API Key' });
 
-        const redisKey = `ratelimit:${apiKey}`;
-        const result = await redis.eval(luaScript, 1, redisKey, 60, keyData.limit);
+        // FIX: /auth ke liye limit 100 kar do, baaki ke liye jo key me hai wahi
+        // Kyunki /auth/me app khulte hi call hota hai, 10 bahut kam hai
+        let limitToUse = keyData.limit;
+        if (req.path.startsWith('/auth')) {
+            limitToUse = Math.max(keyData.limit, 100); // auth ke liye kam se kam 100
+        }
+
+        const redisKey = `ratelimit:${apiKey}:${req.path.startsWith('/auth') ? 'auth' : 'api'}`;
+        const result = await redis.eval(luaScript, 1, redisKey, 60, limitToUse);
 
         if (result === 0) {
             return res.status(429).json({
                 error: 'Rate limit exceeded',
                 tier: keyData.tier,
-                limit: keyData.limit,
+                limit: limitToUse,
                 retryAfter: 60
             });
         }
 
-        res.setHeader('X-RateLimit-Limit', keyData.limit);
-        res.setHeader('X-RateLimit-Remaining', keyData.limit - (await redis.get(redisKey) || 0));
+        res.setHeader('X-RateLimit-Limit', limitToUse);
+        res.setHeader('X-RateLimit-Remaining', limitToUse - (await redis.get(redisKey) || 0));
         req.keyData = keyData;
         next();
     } catch (e) {
@@ -105,9 +112,9 @@ app.use(async (req, res, next) => {
     }
 });
 
-// Dynamic Proxy
+// Dynamic Proxy - ye same rehne de
 app.use('/', (req, res, next) => {
-    if (!req.keyData) return res.status(404).json({ error: 'Not found' });
+    if (!req.keyData) return res.status(404).json({ error: 'Not found - keyData missing' });
 
     const target = req.keyData.downstreamUrl;
     console.log(`Proxying ${req.keyData.key} -> ${target}${req.originalUrl}`);
@@ -121,7 +128,7 @@ app.use('/', (req, res, next) => {
             error: (err, req, res) => {
                 console.error('Proxy Error:', err.message);
                 if (!res.headersSent) {
-                    res.status(502).json({ error: 'Bad Gateway - downstream unreachable', target });
+                    res.status(502).json({ error: 'Bad Gateway - downstream unreachable', target: target });
                 }
             }
         }
