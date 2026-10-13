@@ -56,10 +56,21 @@ app.use(async (req, res, next) => {
     next();
 });
 
+// NAYA - Timeout fix
 app.use('/', (req, res, next) => {
     const target = req.keyData.downstreamUrl;
     console.log(`Proxying ${req.keyData.key} -> ${target}${req.originalUrl}`);
-    return createProxyMiddleware({ target, changeOrigin: true, logLevel: 'silent' })(req, res, next);
+    return createProxyMiddleware({
+        target,
+        changeOrigin: true,
+        logLevel: 'silent',
+        proxyTimeout: 120000, // 120 sec tak backend ka wait karega
+        timeout: 120000,
+        onError: (err, req, res) => {
+            console.error('Proxy Error:', err.message);
+            res.status(504).json({ message: 'Backend waking up, please retry in 30 sec' });
+        }
+    })(req, res, next);
 });
 
 app.listen(PORT, () => console.log(`Gateway on ${PORT}`));
