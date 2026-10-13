@@ -41,10 +41,12 @@ app.use(async (req, res, next) => {
     const apiKey = req.headers['x-api-key'];
     if (!apiKey) return res.status(401).json({ error: 'API Key missing' });
     const keyData = await ApiKey.findOne({ key: apiKey });
+    console.log('KEY:', apiKey, 'DB limit:', keyData.limit, 'tier:', keyData.tier);
     if (!keyData) return res.status(403).json({ error: 'Invalid API Key' });
 
     let limitToUse = keyData.limit; // DB se lega
     if (req.path.startsWith('/auth')) limitToUse = Math.max(keyData.limit, 100);
+    console.log('limitToUse for', req.path, ':', limitToUse);
 
     const redisKey = `ratelimit:${apiKey}:${req.path.startsWith('/auth') ? 'auth' : 'api'}`;
     const result = await redis.eval(luaScript, 1, redisKey, 60, limitToUse);
