@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Redis = require('ioredis');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const axios = require('axios'); // <-- yahan change 1
 const fs = require('fs');
 const ApiKey = require('./models/ApiKey');
 
@@ -23,7 +23,7 @@ app.post('/admin/create-key', async (req, res) => {
     let { tier, owner, downstreamUrl } = req.body;
     if (!downstreamUrl) return res.status(400).json({ error: 'downstreamUrl required' });
     downstreamUrl = downstreamUrl.trim().replace(/\/$/, '');
-    const limit = tier === 'pro' ? 100 : 10; // FIXED: yahi pe 10/100 decide hoga
+    const limit = tier === 'pro' ? 100 : 10;
     const key = `${tier}_${Math.random().toString(36).substring(2, 12)}`;
     const newKey = await ApiKey.create({ key, tier, limit, owner, downstreamUrl });
     res.json(newKey);
@@ -44,7 +44,7 @@ app.use(async (req, res, next) => {
     console.log('KEY:', apiKey, 'DB limit:', keyData.limit, 'tier:', keyData.tier);
     if (!keyData) return res.status(403).json({ error: 'Invalid API Key' });
 
-    let limitToUse = keyData.limit; // DB se lega
+    let limitToUse = keyData.limit;
     if (req.path.startsWith('/auth')) limitToUse = Math.max(keyData.limit, 100);
     console.log('limitToUse for', req.path, ':', limitToUse);
 
@@ -56,21 +56,36 @@ app.use(async (req, res, next) => {
     next();
 });
 
-// NAYA - Timeout fix
-app.use('/', (req, res, next) => {
-    const target = req.keyData.downstreamUrl;
-    console.log(`Proxying ${req.keyData.key} -> ${target}${req.originalUrl}`);
-    return createProxyMiddleware({
-        target,
-        changeOrigin: true,
-        logLevel: 'silent',
-        proxyTimeout: 120000, // 120 sec tak backend ka wait karega
-        timeout: 120000,
-        onError: (err, req, res) => {
-            console.error('Proxy Error:', err.message);
-            res.status(504).json({ message: 'Backend waking up, please retry in 30 sec' });
+// YEH PURA BLOCK CHANGE HAI - manual proxy
+app.use('/', async (req, res) => {
+    const target = req.keyData.downstreamUrl; // https://prep-vault-lxom.onrender.com/api
+    const url = `${target}${req.originalUrl}`;
+    console.log(`Manual Proxy ${req.method} ${url} -> ${req.keyData.key}`);
+
+    try {
+        const response = await axios({
+            method: req.method,
+            url: url,
+            data: req.body,
+            params: req.query,
+            headers: {
+                'Content-Type': 'application/json',
+                'Cookie': req.headers.cookie || ''
+            },
+            timeout: 120000,
+            validateStatus: () => true
+        });
+
+        // forward set-cookie
+        if (response.headers['set-cookie']) {
+            res.setHeader('set-cookie', response.headers['set-cookie']);
         }
-    })(req, res, next);
+        res.status(response.status).send(response.data);
+
+    } catch (err) {
+        console.error('Manual Proxy Error:', err.message, url);
+        res.status(504).json({ message: 'Backend waking up, retry in 30 sec', error: err.message });
+    }
 });
 
 app.listen(PORT, () => console.log(`Gateway on ${PORT}`));
