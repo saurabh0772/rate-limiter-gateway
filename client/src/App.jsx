@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API = "http://localhost:3000"; // deploy ke baad yaha Render URL daal dena
+
+const API = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 function App() {
   const [form, setForm] = useState({ owner: '', downstreamUrl: '', tier: 'free' });
