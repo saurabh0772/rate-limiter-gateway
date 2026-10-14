@@ -24,7 +24,6 @@ export default function CreateKeyView({
     <div className="space-y-10 animate-in fade-in duration-200">
       {/* Creation Card */}
       <section className="bg-zinc-900/70 backdrop-blur-xl border border-zinc-800/90 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-purple-500 opacity-80" />
 
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-800/80 mb-6">
           <div>
@@ -148,7 +147,7 @@ export default function CreateKeyView({
                 value={currentNumericLimit}
                 onChange={e => setForm({ ...form, limit: Number(e.target.value) })}
                 style={{
-                  background: `linear-gradient(to right, #6366f1 0%, #a855f7 ${sliderPercent}%, #27272a ${sliderPercent}%, #27272a 100%)`
+                  background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${sliderPercent}%, #27272a ${sliderPercent}%, #27272a 100%)`
                 }}
                 className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-indigo-500"
               />

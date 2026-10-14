@@ -10,8 +10,6 @@ export default function GuideView({
   return (
     <div className="space-y-8 animate-in fade-in duration-200">
       <section className="bg-zinc-900/70 backdrop-blur-xl border border-zinc-800/90 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-        {/* Top subtle highlight */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-purple-500 opacity-60" />
 
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-zinc-800/80">

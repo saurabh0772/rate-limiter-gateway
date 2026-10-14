@@ -65,7 +65,7 @@ export default function DashboardView({
             <span className="text-lg">🌐</span>
           </div>
           <div className="text-xl font-bold text-white flex items-center gap-2 font-mono truncate">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0" />
             <span className="truncate">Operational</span>
           </div>
           <p className="mt-2 text-xs text-zinc-500 font-mono truncate" title={GATEWAY_URL}>
@@ -76,7 +76,6 @@ export default function DashboardView({
 
       {/* Main Keys List Container */}
       <section className="bg-zinc-900/70 backdrop-blur-xl border border-zinc-800/90 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-purple-500 opacity-70" />
 
         {/* Section Header with Search and Actions */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-800/80">
@@ -187,7 +186,7 @@ export default function DashboardView({
                           {k.name}
                         </span>
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                           Active
                         </span>
                       </div>

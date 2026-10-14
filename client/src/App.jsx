@@ -355,9 +355,6 @@ curl -i -X GET "${sampleProxyUrl}" \\
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-zinc-100 bg-grid-pattern relative pb-20">
-      {/* Ambient background glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-radial-glow pointer-events-none -z-0" />
-
       {/* Header */}
       <header className="sticky top-0 z-30 border-b border-zinc-800/80 bg-[#0a0a0a]/90 backdrop-blur-xl">
         {/* Top Brand Bar */}
@@ -370,7 +367,7 @@ curl -i -X GET "${sampleProxyUrl}" \\
               <div className="flex items-center gap-2">
                 <span className="text-base font-bold tracking-tight text-white">Rate Limiter</span>
                 <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                   Live
                 </span>
               </div>
@@ -411,10 +408,10 @@ curl -i -X GET "${sampleProxyUrl}" \\
                   >
                     <span>{tab.label}</span>
                     {tab.hasAlert && (
-                      <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" title="Security alert active" />
+                      <span className="w-2 h-2 rounded-full bg-red-500" title="Security alert active" />
                     )}
                     {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-indigo-500 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.6)]" />
+                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-indigo-500 rounded-full" />
                     )}
                   </button>
                 );
@@ -645,8 +642,6 @@ export default function App() {
     <>
       <SignedOut>
         <div className="min-h-screen bg-[#0a0a0a] text-zinc-100 bg-grid-pattern relative flex flex-col justify-between p-6">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-radial-glow pointer-events-none -z-0" />
-
           {/* Nav */}
           <div className="max-w-7xl w-full mx-auto flex items-center justify-between z-10">
             <div className="flex items-center gap-3">
@@ -663,13 +658,13 @@ export default function App() {
           {/* Hero Center */}
           <div className="max-w-2xl mx-auto text-center space-y-6 z-10 py-12">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-              <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-indigo-400" />
               Production-Grade Rate Limiting Gateway
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
               Protect your APIs with <br />
-              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="text-indigo-400">
                 Token Bucket Precision
               </span>
             </h1>

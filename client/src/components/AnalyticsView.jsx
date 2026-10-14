@@ -31,14 +31,11 @@ export default function AnalyticsView({
     <div className="space-y-8 animate-in fade-in duration-200">
       {/* Step 3: Analytics & Anomaly Detection Section */}
       <section className="bg-zinc-900/70 backdrop-blur-xl border border-zinc-800/90 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden space-y-8">
-        {/* Top gradient highlight */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emerald-500 to-indigo-500 opacity-70" />
-
         {/* Anomaly Detection Banner if triggered */}
         {anomaliesData.hasAnomaly && !dismissedAnomaly && anomaliesData.anomalies?.length > 0 && (
-          <div className="p-4 sm:p-5 rounded-xl bg-gradient-to-r from-red-950/80 via-zinc-900/90 to-amber-950/80 border border-red-500/50 backdrop-blur-xl shadow-xl flex items-start justify-between gap-4 animate-in fade-in duration-300">
+          <div className="p-4 sm:p-5 rounded-xl bg-zinc-900 border border-red-500/30 backdrop-blur-xl shadow-xl flex items-start justify-between gap-4 animate-in fade-in duration-300">
             <div className="flex items-start gap-3">
-              <div className="p-2.5 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400 text-xl shrink-0 animate-pulse">
+              <div className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xl shrink-0">
                 ⚠️
               </div>
               <div className="space-y-1">
@@ -76,7 +73,7 @@ export default function AnalyticsView({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-800/80">
           <div>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
               Real-Time Gateway Telemetry
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
@@ -120,7 +117,7 @@ export default function AnalyticsView({
               }`}
               title="Toggle automatic refresh every 30 seconds"
             >
-              <span className={`w-2 h-2 rounded-full ${analyticsAutoRefresh ? 'bg-emerald-400 animate-pulse' : 'bg-zinc-600'}`} />
+              <span className={`w-2 h-2 rounded-full ${analyticsAutoRefresh ? 'bg-emerald-400' : 'bg-zinc-600'}`} />
               <span className="font-medium">Auto-refresh (30s)</span>
             </button>
 
@@ -354,7 +351,7 @@ export default function AnalyticsView({
                         <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
                           <div
                             style={{ width: `${pct}%` }}
-                            className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"
+                            className="h-full bg-indigo-500 rounded-full"
                           />
                         </div>
                       </div>
@@ -381,7 +378,7 @@ export default function AnalyticsView({
         <div className="space-y-4 pt-2">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
               <h3 className="text-sm font-bold text-white tracking-tight">
                 Live Request Stream
               </h3>
