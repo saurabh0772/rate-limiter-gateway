@@ -7,6 +7,10 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 
+require('./models/User');
+require('./models/ApiKey');
+require('./models/RequestLog');
+
 const adminRoutes = require('./routes/admin');
 const rateLimitMiddleware = require('./middlewares/rateLimitMiddleware');
 
@@ -49,7 +53,19 @@ let luaScript = '';
 try { luaScript = fs.readFileSync(luaPath, 'utf8'); } catch(e){ console.log('Lua not found, using memory fallback'); }
 
 mongoose.connect(process.env.MONGO_URL)
-    .then(() => console.log('✅ Mongo Connected'))
+    .then(async () => {
+        console.log('✅ Mongo Connected');
+        try {
+            const ApiKey = mongoose.model('ApiKey');
+            const indexes = await ApiKey.collection.indexes();
+            if (indexes.some(idx => idx.name === 'key_1')) {
+                await ApiKey.collection.dropIndex('key_1');
+                console.log('✅ Dropped legacy key_1 unique index');
+            }
+        } catch (e) {
+            // Ignore if index doesn't exist or collection is empty
+        }
+    })
     .catch(e => console.error('❌ Mongo Error', e.message));
 
 app.get('/health', (req, res) => res.json({ status: 'ok', uptime: process.uptime() }));
