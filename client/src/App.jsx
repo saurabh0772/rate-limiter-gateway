@@ -320,54 +320,49 @@ curl -i -X GET "${sampleProxyUrl}" \\
   };
 
   const getMethodBadge = (method) => {
-    const m = (method || 'GET').toUpperCase();
-    if (m === 'GET') return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
-    if (m === 'POST') return 'bg-purple-500/10 text-purple-400 border-purple-500/20';
-    if (m === 'PUT' || m === 'PATCH') return 'bg-amber-500/10 text-amber-400 border-amber-500/20';
-    if (m === 'DELETE') return 'bg-red-500/10 text-red-400 border-red-500/20';
-    return 'bg-zinc-800 text-zinc-400 border-zinc-700';
+    return 'bg-zinc-900 text-zinc-300 border-zinc-800 font-mono';
   };
 
   const getStatusBadge = (status, code) => {
     if (status === 'blocked' || code === 429) {
       return (
-        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-red-500/10 text-red-400 border border-red-500/20">
-          <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[11px] font-mono font-medium bg-zinc-900 text-zinc-400 border border-zinc-800">
+          <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
           429 Blocked
         </span>
       );
     }
     if (code >= 500) {
       return (
-        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+        <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[11px] font-mono font-medium bg-zinc-900 text-zinc-400 border border-zinc-800">
+          <span className="w-1.5 h-1.5 rounded-full bg-zinc-500" />
           {code} Error
         </span>
       );
     }
     return (
-      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[11px] font-mono font-medium bg-zinc-900 text-zinc-200 border border-zinc-800">
+        <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
         {code || 200} Allowed
       </span>
     );
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-zinc-100 bg-grid-pattern relative pb-20">
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 bg-grid-pattern relative pb-20">
       {/* Header */}
-      <header className="sticky top-0 z-30 border-b border-zinc-800/80 bg-[#0a0a0a]/90 backdrop-blur-xl">
+      <header className="sticky top-0 z-30 border-b border-zinc-800/80 bg-[#09090b]/90 backdrop-blur-xl">
         {/* Top Brand Bar */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-bold text-sm shadow-sm">
-              ⚡
+            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-200 font-mono font-semibold text-xs shadow-sm">
+              RL
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-base font-bold tracking-tight text-white">Rate Limiter</span>
-                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-zinc-900 text-zinc-400 border border-zinc-800">
+                  <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
                   Live
                 </span>
               </div>
@@ -408,10 +403,10 @@ curl -i -X GET "${sampleProxyUrl}" \\
                   >
                     <span>{tab.label}</span>
                     {tab.hasAlert && (
-                      <span className="w-2 h-2 rounded-full bg-red-500" title="Security alert active" />
+                      <span className="w-2 h-2 rounded-full bg-zinc-400" title="Security alert active" />
                     )}
                     {isActive && (
-                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-indigo-500 rounded-full" />
+                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded-full" />
                     )}
                   </button>
                 );
@@ -518,7 +513,7 @@ curl -i -X GET "${sampleProxyUrl}" \\
             {/* Modal Header */}
             <div className="flex items-start justify-between">
               <div>
-                <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-2">
+                <span className="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-mono font-semibold bg-zinc-800 text-zinc-300 border border-zinc-700 mb-2">
                   Key Created Successfully
                 </span>
                 <h3 className="text-xl font-bold text-white tracking-tight">
@@ -527,17 +522,17 @@ curl -i -X GET "${sampleProxyUrl}" \\
               </div>
               <button
                 onClick={() => setNewKeyModal(null)}
-                className="text-zinc-400 hover:text-white p-1 rounded-lg hover:bg-zinc-800 text-lg cursor-pointer"
+                className="text-zinc-400 hover:text-white p-1 rounded-lg hover:bg-zinc-800 text-sm font-mono cursor-pointer"
               >
-                ✕
+                close
               </button>
             </div>
 
             {/* Warning alert */}
-            <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 text-xs flex items-start gap-2.5">
-              <span className="text-base shrink-0">⚠️</span>
+            <div className="p-3.5 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-300 text-xs space-y-1">
+              <span className="font-mono text-zinc-400 text-[10px] uppercase tracking-wider block font-semibold">[Important]</span>
               <p className="leading-relaxed">
-                <strong className="text-amber-200">Copy this key now.</strong> For security purposes, this raw key is only shown once and is never stored in plain text in our database. You won't be able to see it again!
+                Copy this key now. For security purposes, this raw key is only shown once and is never stored in plain text in our database. You will not be able to view it again.
               </p>
             </div>
 
@@ -547,18 +542,18 @@ curl -i -X GET "${sampleProxyUrl}" \\
                 API Secret Key
               </label>
               <div className="relative">
-                <pre className="w-full bg-black border border-zinc-800 rounded-xl p-3.5 font-mono text-emerald-400 text-xs sm:text-sm break-all select-all pr-24 overflow-x-auto">
+                <pre className="w-full bg-black border border-zinc-800 rounded-xl p-3.5 font-mono text-zinc-100 text-xs sm:text-sm break-all select-all pr-24 overflow-x-auto">
                   {newKeyModal.key}
                 </pre>
                 <button
                   onClick={() => copyText(newKeyModal.key, setCopiedKey)}
                   className={`absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg text-xs font-semibold font-mono transition-all cursor-pointer ${
                     copiedKey
-                      ? 'bg-emerald-500 text-black shadow-md shadow-emerald-500/20'
+                      ? 'bg-zinc-700 text-white'
                       : 'bg-white hover:bg-zinc-200 text-black'
                   }`}
                 >
-                  {copiedKey ? '✓ Copied!' : 'Copy Key'}
+                  {copiedKey ? 'Copied' : 'Copy Key'}
                 </button>
               </div>
             </div>
@@ -571,7 +566,7 @@ curl -i -X GET "${sampleProxyUrl}" \\
               </div>
               <div className="flex justify-between items-center text-zinc-400 pb-2 border-b border-zinc-800/60">
                 <span>Rate Limit:</span>
-                <span className="text-indigo-400 font-semibold">{newKeyModal.limit?.toLocaleString()} req/min</span>
+                <span className="text-white font-semibold">{newKeyModal.limit?.toLocaleString()} req/min</span>
               </div>
 
               {/* Original Backend */}
@@ -582,10 +577,10 @@ curl -i -X GET "${sampleProxyUrl}" \\
 
               {/* Rate Limited URL */}
               <div className="space-y-1 pt-1">
-                <span className="text-indigo-400 uppercase text-[10px] tracking-wider font-semibold flex items-center gap-1">
-                  <span>🔗</span> Your Rate Limited URL (Call this in frontend):
+                <span className="text-zinc-400 uppercase text-[10px] tracking-wider font-semibold flex items-center gap-1">
+                  Rate Limited Proxy URL:
                 </span>
-                <div className="flex items-center justify-between gap-2 bg-zinc-950 p-2 rounded-lg border border-indigo-500/30">
+                <div className="flex items-center justify-between gap-2 bg-zinc-950 p-2 rounded-lg border border-zinc-800">
                   <span className="text-zinc-200 break-all select-all font-semibold">
                     {getProxyUrl(newKeyModal.downstreamUrl)}
                   </span>
@@ -593,11 +588,11 @@ curl -i -X GET "${sampleProxyUrl}" \\
                     onClick={() => copyText(getProxyUrl(newKeyModal.downstreamUrl), setCopiedModalProxy)}
                     className={`shrink-0 px-2 py-1 rounded text-[11px] font-semibold transition-all cursor-pointer ${
                       copiedModalProxy
-                        ? 'bg-emerald-500 text-black'
-                        : 'bg-indigo-600/40 hover:bg-indigo-600 text-indigo-200'
+                        ? 'bg-white text-black'
+                        : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700'
                     }`}
                   >
-                    {copiedModalProxy ? '✓ Copied' : 'Copy'}
+                    {copiedModalProxy ? 'Copied' : 'Copy'}
                   </button>
                 </div>
               </div>
@@ -606,18 +601,18 @@ curl -i -X GET "${sampleProxyUrl}" \\
               <div className="space-y-1 pt-1">
                 <span className="text-zinc-500 uppercase text-[10px] tracking-wider font-semibold">Required Header:</span>
                 <div className="flex items-center justify-between gap-2 bg-zinc-950 p-2 rounded-lg border border-zinc-800">
-                  <span className="text-emerald-400 break-all select-all">
+                  <span className="text-zinc-300 break-all select-all">
                     x-api-key: {newKeyModal.key}
                   </span>
                   <button
                     onClick={() => copyText(`x-api-key: ${newKeyModal.key}`, setCopiedModalHeader)}
                     className={`shrink-0 px-2 py-1 rounded text-[11px] font-semibold transition-all cursor-pointer ${
                       copiedModalHeader
-                        ? 'bg-emerald-500 text-black'
-                        : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300'
+                        ? 'bg-white text-black'
+                        : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700'
                     }`}
                   >
-                    {copiedModalHeader ? '✓ Copied' : 'Copy'}
+                    {copiedModalHeader ? 'Copied' : 'Copy'}
                   </button>
                 </div>
               </div>
@@ -641,11 +636,13 @@ export default function App() {
   return (
     <>
       <SignedOut>
-        <div className="min-h-screen bg-[#0a0a0a] text-zinc-100 bg-grid-pattern relative flex flex-col justify-between p-6">
+        <div className="min-h-screen bg-[#09090b] text-zinc-100 bg-grid-pattern relative flex flex-col justify-between p-6">
           {/* Nav */}
           <div className="max-w-7xl w-full mx-auto flex items-center justify-between z-10">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🚀</span>
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-200 font-mono font-semibold text-xs">
+                RL
+              </div>
               <span className="font-bold text-lg tracking-tight text-white">Rate Limiter SaaS</span>
             </div>
             <SignInButton mode="modal">
@@ -657,14 +654,14 @@ export default function App() {
 
           {/* Hero Center */}
           <div className="max-w-2xl mx-auto text-center space-y-6 z-10 py-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-              <span className="w-2 h-2 rounded-full bg-indigo-400" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs font-mono font-medium bg-zinc-900 text-zinc-300 border border-zinc-800">
+              <span className="w-2 h-2 rounded-full bg-zinc-400" />
               Production-Grade Rate Limiting Gateway
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-tight">
               Protect your APIs with <br />
-              <span className="text-indigo-400">
+              <span className="text-zinc-100">
                 Token Bucket Precision
               </span>
             </h1>

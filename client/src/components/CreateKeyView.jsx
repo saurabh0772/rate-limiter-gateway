@@ -27,7 +27,7 @@ export default function CreateKeyView({
 
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-800/80 mb-6">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-2">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-mono font-medium bg-zinc-900 text-zinc-400 border border-zinc-800 mb-2">
               Key Generation Wizard
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
@@ -46,8 +46,8 @@ export default function CreateKeyView({
         </div>
 
         {createError && (
-          <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-start gap-2">
-            <span className="font-bold">Error:</span>
+          <div className="mb-6 p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-300 text-xs flex items-start gap-2">
+            <span className="font-mono text-zinc-400 font-semibold">[Error]</span>
             <span>{createError}</span>
           </div>
         )}
@@ -64,7 +64,7 @@ export default function CreateKeyView({
               value={form.name}
               onChange={e => setForm({ ...form, name: e.target.value })}
               placeholder="e.g. Production Backend, Mobile App Client"
-              className="w-full bg-black/60 border border-zinc-800 focus:border-indigo-500/80 focus:ring-1 focus:ring-indigo-500/80 rounded-xl px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none transition-all"
+              className="w-full bg-black/60 border border-zinc-800 focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 rounded-xl px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none transition-all"
             />
           </div>
 
@@ -83,12 +83,12 @@ export default function CreateKeyView({
               onChange={e => handleUrlChange(e.target.value)}
               placeholder="https://api.mybackend.com"
               className={`w-full bg-black/60 border ${
-                urlWarning ? 'border-amber-500/70 focus:border-amber-500' : 'border-zinc-800 focus:border-indigo-500/80'
-              } focus:ring-1 focus:ring-indigo-500/80 rounded-xl px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none transition-all font-mono`}
+                urlWarning ? 'border-zinc-600 focus:border-zinc-400' : 'border-zinc-800 focus:border-zinc-500'
+              } focus:ring-1 focus:ring-zinc-500 rounded-xl px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-600 outline-none transition-all font-mono`}
             />
             {urlWarning && (
-              <p className="mt-1.5 text-xs text-amber-400 flex items-center gap-1 font-medium">
-                <span>⚠️</span> {urlWarning}
+              <p className="mt-1.5 text-xs text-zinc-400 flex items-center gap-1 font-mono">
+                <span>[Warning]</span> {urlWarning}
               </p>
             )}
             {form.downstreamUrl && !urlWarning && (
@@ -111,7 +111,7 @@ export default function CreateKeyView({
               </div>
 
               {/* Synchronized Custom Number Input Box */}
-              <div className="flex items-center gap-1.5 bg-black/80 border border-zinc-700/80 hover:border-zinc-600 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500/50 rounded-lg px-2.5 py-1.5 transition-all">
+              <div className="flex items-center gap-1.5 bg-black/80 border border-zinc-700/80 hover:border-zinc-600 focus-within:border-zinc-500 focus-within:ring-1 focus-within:ring-zinc-500/50 rounded-lg px-2.5 py-1.5 transition-all">
                 <span className="text-xs text-zinc-500 font-mono">[</span>
                 <input
                   type="number"
@@ -120,7 +120,7 @@ export default function CreateKeyView({
                   value={form.limit}
                   onChange={handleLimitInputChange}
                   onBlur={handleLimitInputBlur}
-                  className="w-16 bg-transparent text-right font-mono text-sm text-indigo-300 font-bold outline-none focus:text-white"
+                  className="w-16 bg-transparent text-right font-mono text-sm text-zinc-200 font-bold outline-none focus:text-white"
                   placeholder="100"
                 />
                 <span className="text-xs text-zinc-500 font-mono">] req/min</span>
@@ -147,9 +147,9 @@ export default function CreateKeyView({
                 value={currentNumericLimit}
                 onChange={e => setForm({ ...form, limit: Number(e.target.value) })}
                 style={{
-                  background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${sliderPercent}%, #27272a ${sliderPercent}%, #27272a 100%)`
+                  background: `linear-gradient(to right, #ffffff 0%, #ffffff ${sliderPercent}%, #27272a ${sliderPercent}%, #27272a 100%)`
                 }}
-                className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                className="w-full h-2 rounded-lg appearance-none cursor-pointer accent-white"
               />
               <div className="flex justify-between items-center text-[10px] text-zinc-500 font-mono mt-1">
                 <span>1 req/min</span>
@@ -179,8 +179,8 @@ export default function CreateKeyView({
                     onClick={() => setForm({ ...form, limit: preset.val })}
                     className={`px-3 py-1 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer ${
                       currentNumericLimit === preset.val
-                        ? 'bg-indigo-600 text-white font-bold shadow-md shadow-indigo-600/30'
-                        : 'bg-zinc-800/80 hover:bg-zinc-700 text-zinc-400 hover:text-zinc-200 border border-zinc-700/50'
+                        ? 'bg-white text-black font-semibold shadow-sm'
+                        : 'bg-zinc-900 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 border border-zinc-800'
                     }`}
                   >
                     {preset.label}
@@ -204,7 +204,7 @@ export default function CreateKeyView({
             ) : keys.length >= 3 ? (
               <span>Plan Limit Reached (3/3 Keys)</span>
             ) : (
-              <span>Generate API Key →</span>
+              <span>Generate API Key</span>
             )}
           </button>
         </form>
@@ -249,14 +249,14 @@ export default function CreateKeyView({
                             setCopiedPrefixId(k._id);
                             setTimeout(() => setCopiedPrefixId(null), 2500);
                           })}
-                          className="text-[10px] text-zinc-500 hover:text-zinc-200 px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700/40 cursor-pointer"
+                          className="text-[10px] text-zinc-400 hover:text-white px-2 py-0.5 rounded bg-zinc-900 border border-zinc-800 cursor-pointer font-mono"
                         >
-                          {copiedPrefixId === k._id ? '✓' : 'Copy'}
+                          {copiedPrefixId === k._id ? 'Copied' : 'Copy'}
                         </button>
                       </div>
                     </div>
-                    <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
-                      ⚡ {k.limit?.toLocaleString()}/min
+                    <span className="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-zinc-900 text-zinc-300 border border-zinc-800">
+                      {k.limit?.toLocaleString()} req/min
                     </span>
                   </div>
 
@@ -264,16 +264,16 @@ export default function CreateKeyView({
                     Target: <span className="text-zinc-400">{k.downstreamUrl}</span>
                   </div>
 
-                  <div className="p-2 rounded bg-zinc-950 border border-indigo-500/20 flex items-center justify-between gap-2">
+                  <div className="p-2 rounded bg-zinc-950 border border-zinc-800 flex items-center justify-between gap-2">
                     <span className="font-mono text-[11px] text-zinc-300 truncate">{proxyUrl}</span>
                     <button
                       onClick={() => copyText(proxyUrl, () => {
                         setCopiedProxyId(k._id);
                         setTimeout(() => setCopiedProxyId(null), 2500);
                       })}
-                      className="text-[10px] px-2 py-0.5 rounded bg-indigo-600/30 hover:bg-indigo-600 text-indigo-200 cursor-pointer font-mono shrink-0"
+                      className="text-[10px] px-2 py-0.5 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 cursor-pointer font-mono shrink-0"
                     >
-                      {copiedProxyId === k._id ? '✓ Copied' : 'Copy URL'}
+                      {copiedProxyId === k._id ? 'Copied' : 'Copy URL'}
                     </button>
                   </div>
 
@@ -282,7 +282,7 @@ export default function CreateKeyView({
                     <button
                       onClick={() => revokeKey(k._id)}
                       disabled={revokingId === k._id}
-                      className="text-red-400 hover:text-red-300 text-xs cursor-pointer disabled:opacity-50"
+                      className="text-zinc-400 hover:text-white text-xs cursor-pointer disabled:opacity-50"
                     >
                       {revokingId === k._id ? 'Revoking...' : 'Revoke'}
                     </button>

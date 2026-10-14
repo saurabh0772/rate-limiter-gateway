@@ -33,26 +33,26 @@ export default function AnalyticsView({
       <section className="bg-zinc-900/70 backdrop-blur-xl border border-zinc-800/90 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden space-y-8">
         {/* Anomaly Detection Banner if triggered */}
         {anomaliesData.hasAnomaly && !dismissedAnomaly && anomaliesData.anomalies?.length > 0 && (
-          <div className="p-4 sm:p-5 rounded-xl bg-zinc-900 border border-red-500/30 backdrop-blur-xl shadow-xl flex items-start justify-between gap-4 animate-in fade-in duration-300">
+          <div className="p-4 sm:p-5 rounded-xl bg-zinc-950 border border-zinc-800 shadow-xl flex items-start justify-between gap-4 animate-in fade-in duration-300">
             <div className="flex items-start gap-3">
-              <div className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xl shrink-0">
-                ⚠️
-              </div>
+              <span className="font-mono text-zinc-400 text-xs font-semibold px-2 py-1 rounded bg-zinc-900 border border-zinc-800 shrink-0">
+                [ALERT]
+              </span>
               <div className="space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-sm font-bold text-white tracking-tight">Security & Anomaly Alert</span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-red-500 text-white tracking-wider">
-                    {anomaliesData.anomalies[0]?.severity || 'HIGH'} SEVERITY
+                  <span className="text-sm font-bold text-white tracking-tight">Security & Anomaly Notice</span>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-zinc-800 text-zinc-300 border border-zinc-700 tracking-wider">
+                    {anomaliesData.anomalies[0]?.severity || 'HIGH'}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-red-200 leading-relaxed font-medium">
+                <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-medium">
                   {anomaliesData.anomalies[0]?.message}
                 </p>
                 {anomaliesData.anomalies.length > 1 && (
                   <div className="pt-1.5 space-y-1">
                     {anomaliesData.anomalies.slice(1).map((anom, idx) => (
-                      <div key={idx} className="text-xs text-red-300/80 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+                      <div key={idx} className="text-xs text-zinc-400 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
                         <span>{anom.message}</span>
                       </div>
                     ))}
@@ -62,7 +62,7 @@ export default function AnalyticsView({
             </div>
             <button
               onClick={() => setDismissedAnomaly(true)}
-              className="text-xs text-zinc-400 hover:text-white px-2.5 py-1 rounded-lg bg-zinc-800/80 hover:bg-zinc-700 border border-zinc-700/60 transition-colors cursor-pointer shrink-0"
+              className="text-xs text-zinc-400 hover:text-white px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 transition-colors cursor-pointer shrink-0 font-mono"
             >
               Dismiss
             </button>
@@ -72,9 +72,9 @@ export default function AnalyticsView({
         {/* Section Header & Period / Refresh Controls */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-800/80">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              Real-Time Gateway Telemetry
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-mono font-medium bg-zinc-900 text-zinc-400 border border-zinc-800 mb-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+              Gateway Telemetry
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
               Analytics & Anomaly Detection
@@ -87,18 +87,18 @@ export default function AnalyticsView({
           {/* Controls: Period Selector & Auto-refresh */}
           <div className="flex flex-wrap items-center gap-2.5">
             {/* Period selector */}
-            <div className="flex items-center bg-black/60 p-1 rounded-xl border border-zinc-800/80">
+            <div className="flex items-center bg-black/60 p-1 rounded-xl border border-zinc-800/80 font-mono">
               {[
-                { id: '24h', label: '24 Hours' },
-                { id: '7d', label: '7 Days' },
-                { id: '30d', label: '30 Days' }
+                { id: '24h', label: '24H' },
+                { id: '7d', label: '7D' },
+                { id: '30d', label: '30D' }
               ].map(p => (
                 <button
                   key={p.id}
                   onClick={() => setAnalyticsPeriod(p.id)}
                   className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
                     analyticsPeriod === p.id
-                      ? 'bg-indigo-600 text-white font-semibold shadow-md shadow-indigo-600/20'
+                      ? 'bg-white text-black font-semibold shadow-sm'
                       : 'text-zinc-400 hover:text-zinc-200'
                   }`}
                 >
@@ -110,26 +110,25 @@ export default function AnalyticsView({
             {/* Auto Refresh Toggle */}
             <button
               onClick={() => setAnalyticsAutoRefresh(!analyticsAutoRefresh)}
-              className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl border transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl border transition-all cursor-pointer font-mono ${
                 analyticsAutoRefresh
-                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+                  ? 'bg-zinc-800 border-zinc-700 text-zinc-200'
                   : 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:text-zinc-300'
               }`}
               title="Toggle automatic refresh every 30 seconds"
             >
-              <span className={`w-2 h-2 rounded-full ${analyticsAutoRefresh ? 'bg-emerald-400' : 'bg-zinc-600'}`} />
-              <span className="font-medium">Auto-refresh (30s)</span>
+              <span className={`w-1.5 h-1.5 rounded-full ${analyticsAutoRefresh ? 'bg-zinc-300' : 'bg-zinc-600'}`} />
+              <span>Auto (30s)</span>
             </button>
 
             {/* Manual Refresh Button */}
             <button
               onClick={() => fetchAnalytics(true)}
               disabled={loadingAnalytics}
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 active:scale-95 border border-zinc-700/60 text-zinc-200 transition-all cursor-pointer disabled:opacity-50"
+              className="text-xs px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 active:scale-95 border border-zinc-800 text-zinc-200 transition-all cursor-pointer disabled:opacity-50 font-mono"
               title="Refresh metrics now"
             >
-              <span className={`${loadingAnalytics ? 'animate-spin' : ''}`}>🔄</span>
-              <span>{loadingAnalytics ? 'Updating...' : 'Refresh'}</span>
+              <span>{loadingAnalytics ? 'Updating...' : 'Sync'}</span>
             </button>
           </div>
         </div>
@@ -137,47 +136,45 @@ export default function AnalyticsView({
         {/* Row 1: 4 Summary Metric Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {/* Card 1: Total Requests */}
-          <div className="p-5 rounded-xl bg-black/40 border border-zinc-800/80 relative overflow-hidden group hover:border-zinc-700 transition-all">
+          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-zinc-700 transition-all">
             <div className="flex items-center justify-between text-zinc-400 mb-2">
               <span className="text-xs font-semibold uppercase tracking-wider">Total Requests</span>
-              <span className="text-lg">⚡</span>
             </div>
             <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">
               {(analyticsSummary.total || 0).toLocaleString()}
             </div>
             <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500">
               <span>In last {analyticsPeriod}</span>
-              <span className="text-indigo-400 font-medium">+{analyticsSummary.requestsLastHour || 0} this hr</span>
+              <span className="text-zinc-300 font-mono">+{analyticsSummary.requestsLastHour || 0} this hr</span>
             </div>
           </div>
 
           {/* Card 2: Blocked Requests (429) */}
-          <div className="p-5 rounded-xl bg-black/40 border border-zinc-800/80 relative overflow-hidden group hover:border-red-900/40 transition-all">
+          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-zinc-700 transition-all">
             <div className="flex items-center justify-between text-zinc-400 mb-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-red-400">Blocked (429)</span>
-              <span className="text-lg">🛡️</span>
+              <span className="text-xs font-semibold uppercase tracking-wider">Blocked (429)</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-red-400 font-mono tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-zinc-200 font-mono tracking-tight">
               {(analyticsSummary.blocked || 0).toLocaleString()}
             </div>
             <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500">
               <span>Rate limited</span>
-              <span className="text-red-400 font-medium">
-                {analyticsSummary.total > 0 ? ((analyticsSummary.blocked / analyticsSummary.total) * 100).toFixed(1) : '0'}% blocked
+              <span className="text-zinc-400 font-mono">
+                {analyticsSummary.total > 0 ? ((analyticsSummary.blocked / analyticsSummary.total) * 100).toFixed(1) : '0'}%
               </span>
             </div>
           </div>
 
           {/* Card 3: Success Rate */}
-          <div className="p-5 rounded-xl bg-black/40 border border-zinc-800/80 relative overflow-hidden group hover:border-emerald-900/40 transition-all flex items-center justify-between">
+          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-zinc-700 transition-all flex items-center justify-between">
             <div>
-              <div className="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-2">
+              <div className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
                 Success Rate
               </div>
-              <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono tracking-tight">
+              <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">
                 {analyticsSummary.successRate || 100}%
               </div>
-              <div className="mt-2 text-[11px] text-zinc-500">
+              <div className="mt-2 text-[11px] text-zinc-500 font-mono">
                 {(analyticsSummary.allowed || 0).toLocaleString()} allowed
               </div>
             </div>
@@ -195,7 +192,7 @@ export default function AnalyticsView({
                   strokeDasharray={2 * Math.PI * 20}
                   strokeDashoffset={2 * Math.PI * 20 - ((analyticsSummary.successRate || 100) / 100) * (2 * Math.PI * 20)}
                   strokeLinecap="round"
-                  className="text-emerald-500 transition-all duration-500"
+                  className="text-zinc-300 transition-all duration-500"
                   fill="transparent"
                 />
               </svg>
@@ -206,17 +203,16 @@ export default function AnalyticsView({
           </div>
 
           {/* Card 4: Avg Response Time */}
-          <div className="p-5 rounded-xl bg-black/40 border border-zinc-800/80 relative overflow-hidden group hover:border-zinc-700 transition-all">
+          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-zinc-700 transition-all">
             <div className="flex items-center justify-between text-zinc-400 mb-2">
               <span className="text-xs font-semibold uppercase tracking-wider">Avg Latency</span>
-              <span className="text-lg">⏱️</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-indigo-300 font-mono tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">
               {analyticsSummary.avgResponseTime || 0}ms
             </div>
-            <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500">
+            <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
               <span>Gateway proxy</span>
-              <span className="text-indigo-400 font-mono">{analyticsSummary.activeKeys || 0} active keys</span>
+              <span className="text-zinc-400">{analyticsSummary.activeKeys || 0} active keys</span>
             </div>
           </div>
         </div>
@@ -236,11 +232,11 @@ export default function AnalyticsView({
               </div>
               <div className="flex items-center gap-4 text-xs font-mono">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block" />
+                  <span className="w-2.5 h-2.5 rounded-sm bg-zinc-300 inline-block" />
                   <span className="text-zinc-400">Allowed</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-400 inline-block" />
+                  <span className="w-2.5 h-2.5 rounded-sm bg-zinc-700 inline-block" />
                   <span className="text-zinc-400">Blocked (429)</span>
                 </div>
               </div>
@@ -276,11 +272,11 @@ export default function AnalyticsView({
                     >
                       {/* Hover Tooltip */}
                       {hoveredBarIndex === index && (
-                        <div className="absolute -top-16 z-30 bg-zinc-950 border border-zinc-700/80 p-2 rounded-lg shadow-xl text-[11px] font-mono whitespace-nowrap pointer-events-none transform -translate-x-1/2 left-1/2 space-y-0.5">
+                        <div className="absolute -top-16 z-30 bg-zinc-950 border border-zinc-800 p-2 rounded-lg shadow-xl text-[11px] font-mono whitespace-nowrap pointer-events-none transform -translate-x-1/2 left-1/2 space-y-0.5">
                           <div className="text-zinc-400 font-bold">{slot.time}</div>
                           <div className="text-white">Total: <strong className="text-zinc-100">{slot.total}</strong></div>
-                          <div className="text-emerald-400">Allowed: {slot.allowed}</div>
-                          <div className="text-red-400">Blocked: {slot.blocked}</div>
+                          <div className="text-zinc-300">Allowed: {slot.allowed}</div>
+                          <div className="text-zinc-500">Blocked: {slot.blocked}</div>
                         </div>
                       )}
 
@@ -289,15 +285,15 @@ export default function AnalyticsView({
                         style={{ height: `${totalHeightPct}%` }}
                         className="w-full max-w-[18px] rounded-t-sm overflow-hidden flex flex-col-reverse transition-all duration-300 group-hover:brightness-125"
                       >
-                        {/* Allowed Green Segment */}
+                        {/* Allowed Silver Segment */}
                         <div
                           style={{ height: `${allowedPct}%` }}
-                          className="w-full bg-emerald-500/80"
+                          className="w-full bg-zinc-300"
                         />
-                        {/* Blocked Red Segment */}
+                        {/* Blocked Dark Chrome Segment */}
                         <div
                           style={{ height: `${blockedPct}%` }}
-                          className="w-full bg-red-500/90"
+                          className="w-full bg-zinc-700"
                         />
                       </div>
                     </div>
@@ -341,7 +337,7 @@ export default function AnalyticsView({
                           <div className="flex items-center gap-1.5 shrink-0">
                             <span className="text-zinc-400">{tp.total} reqs</span>
                             {tp.blocked > 0 && (
-                              <span className="text-[10px] text-red-400 bg-red-500/10 border border-red-500/20 px-1.5 py-0.2 rounded">
+                              <span className="text-[10px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-1.5 py-0.2 rounded font-mono">
                                 {tp.blocked} blocked
                               </span>
                             )}
@@ -351,7 +347,7 @@ export default function AnalyticsView({
                         <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
                           <div
                             style={{ width: `${pct}%` }}
-                            className="h-full bg-indigo-500 rounded-full"
+                            className="h-full bg-zinc-300 rounded-full"
                           />
                         </div>
                       </div>
@@ -360,8 +356,7 @@ export default function AnalyticsView({
                 </div>
               ) : (
                 <div className="h-44 flex flex-col items-center justify-center text-center p-4">
-                  <span className="text-2xl mb-1">🧭</span>
-                  <span className="text-xs text-zinc-500">No route paths recorded yet</span>
+                  <span className="text-xs text-zinc-500 font-mono">No route paths recorded yet</span>
                   <span className="text-[11px] text-zinc-600 mt-1">Make requests to /posts or your custom endpoints</span>
                 </div>
               )}
@@ -369,7 +364,7 @@ export default function AnalyticsView({
 
             <div className="pt-3 border-t border-zinc-800/60 text-[11px] text-zinc-500 font-mono flex items-center justify-between">
               <span>Top 5 endpoints</span>
-              <span className="text-indigo-400">Live proxy stats</span>
+              <span className="text-zinc-400">Live proxy stats</span>
             </div>
           </div>
         </div>
@@ -378,7 +373,7 @@ export default function AnalyticsView({
         <div className="space-y-4 pt-2">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
               <h3 className="text-sm font-bold text-white tracking-tight">
                 Live Request Stream
               </h3>
@@ -390,7 +385,7 @@ export default function AnalyticsView({
             {/* Filters & Search */}
             <div className="flex flex-wrap items-center gap-2">
               {/* Status Pills */}
-              <div className="flex items-center bg-black/60 p-1 rounded-lg border border-zinc-800/80 text-xs">
+              <div className="flex items-center bg-black/60 p-1 rounded-lg border border-zinc-800/80 text-xs font-mono">
                 {[
                   { id: 'all', label: 'All' },
                   { id: 'allowed', label: 'Allowed' },
@@ -401,7 +396,7 @@ export default function AnalyticsView({
                     onClick={() => setLogFilter(f.id)}
                     className={`px-2.5 py-1 rounded-md font-medium transition-all cursor-pointer ${
                       logFilter === f.id
-                        ? 'bg-zinc-800 text-white font-semibold'
+                        ? 'bg-white text-black font-semibold shadow-sm'
                         : 'text-zinc-400 hover:text-zinc-200'
                     }`}
                   >
@@ -417,14 +412,14 @@ export default function AnalyticsView({
                   value={logSearch}
                   onChange={e => setLogSearch(e.target.value)}
                   placeholder="Search path (e.g. /posts)..."
-                  className="bg-black/60 border border-zinc-800 focus:border-indigo-500 rounded-lg px-3 py-1.5 text-xs text-zinc-200 placeholder:text-zinc-600 outline-none w-44 sm:w-56 font-mono"
+                  className="bg-black/60 border border-zinc-800 focus:border-zinc-500 rounded-lg px-3 py-1.5 text-xs text-zinc-200 placeholder:text-zinc-600 outline-none w-44 sm:w-56 font-mono"
                 />
                 {logSearch && (
                   <button
                     onClick={() => setLogSearch('')}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white text-xs cursor-pointer"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white text-xs cursor-pointer font-mono"
                   >
-                    ✕
+                    x
                   </button>
                 )}
               </div>
@@ -448,12 +443,11 @@ export default function AnalyticsView({
               <tbody className="divide-y divide-zinc-800/50">
                 {logs.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="py-12 text-center text-zinc-500">
+                    <td colSpan={7} className="py-12 text-center text-zinc-500 font-mono">
                       <div className="flex flex-col items-center justify-center space-y-2">
-                        <span className="text-3xl">📡</span>
-                        <span className="font-semibold text-zinc-400">No requests yet</span>
+                        <span className="font-semibold text-zinc-300">No requests recorded</span>
                         <p className="text-xs text-zinc-500 max-w-sm">
-                          Make a request through our gateway using curl or your frontend app to see real-time analytics.
+                          Send requests through the proxy gateway with your API key to view real-time logs.
                         </p>
                         <div className="pt-2">
                           <button
@@ -461,9 +455,9 @@ export default function AnalyticsView({
                               const sampleKey = keys[0]?.keyPrefix ? `${keys[0].keyPrefix}...` : 'live_...';
                               copyText(`curl -i -X GET "${GATEWAY_URL}/posts" -H "x-api-key: ${sampleKey}"`, setCopiedLogCurl);
                             }}
-                            className="text-xs px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 font-mono cursor-pointer transition-all"
+                            className="text-xs px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 font-mono cursor-pointer transition-all"
                           >
-                            {copiedLogCurl ? '✓ Command Copied!' : '📋 Copy Sample cURL'}
+                            {copiedLogCurl ? 'Copied' : 'Copy Sample cURL'}
                           </button>
                         </div>
                       </div>
@@ -509,11 +503,7 @@ export default function AnalyticsView({
 
                       {/* Latency */}
                       <td className="py-3 px-4 text-right font-mono whitespace-nowrap">
-                        <span className={`px-2 py-0.5 rounded text-[11px] font-medium ${
-                          (log.responseTimeMs || 0) < 100
-                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                            : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                        }`}>
+                        <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-zinc-900 text-zinc-300 border border-zinc-800">
                           {log.responseTimeMs || 0}ms
                         </span>
                       </td>

@@ -36,7 +36,6 @@ export default function DashboardView({
         <div className="p-5 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden">
           <div className="flex items-center justify-between text-zinc-400 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Active Keys</span>
-            <span className="text-lg">🔑</span>
           </div>
           <div className="text-3xl font-extrabold text-white font-mono">
             {activeKeysCount} <span className="text-sm font-normal text-zinc-500">/ 3 allowed</span>
@@ -49,9 +48,8 @@ export default function DashboardView({
         <div className="p-5 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden">
           <div className="flex items-center justify-between text-zinc-400 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Processed Reqs</span>
-            <span className="text-lg">⚡</span>
           </div>
-          <div className="text-3xl font-extrabold text-emerald-400 font-mono">
+          <div className="text-3xl font-extrabold text-white font-mono">
             {totalProcessed.toLocaleString()}
           </div>
           <p className="mt-2 text-xs text-zinc-500">
@@ -62,10 +60,9 @@ export default function DashboardView({
         <div className="p-5 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden">
           <div className="flex items-center justify-between text-zinc-400 mb-2">
             <span className="text-xs font-semibold uppercase tracking-wider">Gateway Status</span>
-            <span className="text-lg">🌐</span>
           </div>
           <div className="text-xl font-bold text-white flex items-center gap-2 font-mono truncate">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0" />
+            <span className="w-2 h-2 rounded-full bg-zinc-400 shrink-0" />
             <span className="truncate">Operational</span>
           </div>
           <p className="mt-2 text-xs text-zinc-500 font-mono truncate" title={GATEWAY_URL}>
@@ -80,7 +77,7 @@ export default function DashboardView({
         {/* Section Header with Search and Actions */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-800/80">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-2">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-mono font-medium bg-zinc-900 text-zinc-400 border border-zinc-800 mb-2">
               Credentials Management
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
@@ -99,14 +96,14 @@ export default function DashboardView({
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 placeholder="Search keys..."
-                className="bg-black/60 border border-zinc-800 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs text-zinc-200 placeholder:text-zinc-600 outline-none w-44 sm:w-56 font-mono"
+                className="bg-black/60 border border-zinc-800 focus:border-zinc-500 rounded-xl px-3.5 py-2 text-xs text-zinc-200 placeholder:text-zinc-600 outline-none w-44 sm:w-56 font-mono"
               />
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm('')}
                   className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white text-xs cursor-pointer"
                 >
-                  ✕
+                  x
                 </button>
               )}
             </div>
@@ -115,16 +112,15 @@ export default function DashboardView({
             <button
               onClick={fetchKeys}
               disabled={fetching}
-              className="text-xs px-3 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 active:scale-95 border border-zinc-700/60 text-zinc-200 transition-all font-mono cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
+              className="text-xs px-3 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 active:scale-95 border border-zinc-800 text-zinc-300 transition-all font-mono cursor-pointer disabled:opacity-50"
             >
-              <span className={fetching ? 'animate-spin' : ''}>🔄</span>
-              <span>{fetching ? 'Syncing...' : 'Refresh'}</span>
+              <span>{fetching ? 'Syncing...' : 'Sync'}</span>
             </button>
 
             {/* Create Key CTA */}
             <button
               onClick={onNavigateCreateKey}
-              className="text-xs px-3.5 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black font-bold tracking-tight shadow-lg shadow-white/10 transition-all cursor-pointer whitespace-nowrap"
+              className="text-xs px-3.5 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black font-semibold tracking-tight transition-all cursor-pointer whitespace-nowrap"
             >
               + Create Key
             </button>
@@ -132,9 +128,9 @@ export default function DashboardView({
         </div>
 
         {fetchError && (
-          <div className="mt-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-center justify-between">
+          <div className="mt-6 p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-300 text-xs flex items-center justify-between">
             <span>{fetchError}</span>
-            <button onClick={fetchKeys} className="underline hover:text-red-300 font-bold ml-4">
+            <button onClick={fetchKeys} className="underline hover:text-white font-bold ml-4">
               Try again
             </button>
           </div>
@@ -144,14 +140,11 @@ export default function DashboardView({
         <div className="mt-6 space-y-4">
           {fetching && keys.length === 0 ? (
             <div className="py-16 text-center text-zinc-500 space-y-2">
-              <div className="w-8 h-8 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin mx-auto" />
-              <p className="text-xs font-mono">Loading your API credentials...</p>
+              <div className="w-8 h-8 rounded-full border-2 border-zinc-500 border-t-transparent animate-spin mx-auto" />
+              <p className="text-xs font-mono">Loading API credentials...</p>
             </div>
           ) : filteredKeys.length === 0 ? (
             <div className="py-16 text-center text-zinc-500 space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-zinc-800/60 border border-zinc-700/60 flex items-center justify-center text-2xl mx-auto shadow-inner">
-                🔑
-              </div>
               <h3 className="font-semibold text-zinc-300 text-sm">
                 {searchTerm ? 'No keys match your search' : 'No API keys yet'}
               </h3>
@@ -164,9 +157,9 @@ export default function DashboardView({
                 <div className="pt-2">
                   <button
                     onClick={onNavigateCreateKey}
-                    className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition-all shadow-lg shadow-indigo-600/20 cursor-pointer"
+                    className="px-4 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black font-semibold text-xs transition-all cursor-pointer"
                   >
-                    Generate your first API Key →
+                    Generate your first API Key
                   </button>
                 </div>
               )}
@@ -177,7 +170,7 @@ export default function DashboardView({
               return (
                 <div
                   key={k._id}
-                  className="p-5 rounded-xl bg-black/40 border border-zinc-800/80 hover:border-zinc-700/90 transition-all space-y-4 group"
+                  className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-zinc-700 transition-all space-y-4 group"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                     <div className="space-y-1.5 flex-1 min-w-0">
@@ -185,8 +178,8 @@ export default function DashboardView({
                         <span className="font-bold text-white text-sm sm:text-base tracking-tight truncate">
                           {k.name}
                         </span>
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-zinc-900 text-zinc-300 border border-zinc-800">
+                          <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
                           Active
                         </span>
                       </div>
@@ -201,10 +194,10 @@ export default function DashboardView({
                             setCopiedPrefixId(k._id);
                             setTimeout(() => setCopiedPrefixId(null), 2500);
                           })}
-                          className="text-[11px] text-zinc-500 hover:text-zinc-200 px-2 py-0.5 rounded bg-zinc-800/60 hover:bg-zinc-800 border border-zinc-700/40 transition-colors font-mono cursor-pointer"
+                          className="text-[11px] text-zinc-400 hover:text-white px-2 py-0.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 transition-colors font-mono cursor-pointer"
                           title="Copy key prefix"
                         >
-                          {copiedPrefixId === k._id ? '✓ Copied' : 'Copy Prefix'}
+                          {copiedPrefixId === k._id ? 'Copied' : 'Copy Prefix'}
                         </button>
                       </div>
 
@@ -219,17 +212,17 @@ export default function DashboardView({
 
                     {/* Rate Limit Badge */}
                     <div className="flex flex-col items-end gap-2 shrink-0">
-                      <span className="inline-flex items-center px-3 py-1 rounded-lg text-xs font-mono font-bold bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 shadow-sm">
-                        ⚡ {k.limit?.toLocaleString()}/min
+                      <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-mono font-semibold bg-zinc-900 text-zinc-200 border border-zinc-800">
+                        {k.limit?.toLocaleString()} req/min
                       </span>
                     </div>
                   </div>
 
                   {/* USE IN FRONTEND (Gateway Proxy URL) */}
-                  <div className="p-3 rounded-lg bg-zinc-950/80 border border-indigo-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
+                  <div className="p-3 rounded-lg bg-zinc-950 border border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                     <div className="min-w-0 flex-1">
-                      <div className="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider flex items-center gap-1">
-                        <span>🔗</span> USE IN FRONTEND:
+                      <div className="text-[10px] font-mono font-semibold text-zinc-400 uppercase tracking-wider">
+                        GATEWAY ENDPOINT:
                       </div>
                       <div className="font-mono text-xs text-zinc-200 truncate mt-0.5 select-all" title={proxyUrl}>
                         {proxyUrl}
@@ -242,11 +235,11 @@ export default function DashboardView({
                       })}
                       className={`shrink-0 text-xs px-3 py-1.5 rounded-md font-mono transition-all cursor-pointer ${
                         copiedProxyId === k._id
-                          ? 'bg-emerald-500 text-black font-semibold shadow-md shadow-emerald-500/20'
-                          : 'bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-200 border border-indigo-500/30'
+                          ? 'bg-white text-black font-semibold'
+                          : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700'
                       }`}
                     >
-                      {copiedProxyId === k._id ? '✓ URL Copied' : 'Copy URL'}
+                      {copiedProxyId === k._id ? 'Copied' : 'Copy URL'}
                     </button>
                   </div>
 
@@ -265,7 +258,7 @@ export default function DashboardView({
                     <button
                       onClick={() => revokeKey(k._id)}
                       disabled={revokingId === k._id}
-                      className="text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 active:bg-red-500/20 px-2.5 py-1 rounded-lg border border-red-500/20 transition-all font-medium cursor-pointer disabled:opacity-50"
+                      className="text-xs text-zinc-400 hover:text-white hover:bg-zinc-800 active:bg-zinc-700 px-2.5 py-1 rounded-lg border border-zinc-800 transition-all font-medium cursor-pointer disabled:opacity-50"
                     >
                       {revokingId === k._id ? 'Revoking...' : 'Revoke'}
                     </button>

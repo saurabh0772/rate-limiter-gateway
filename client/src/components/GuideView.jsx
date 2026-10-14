@@ -35,11 +35,10 @@ export default function GuideView({
               <button
                 key={tab.id}
                 onClick={() => setGuideTab(tab.id)}
-                className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
-                  guideTab === tab.id
+                className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${guideTab === tab.id
                     ? 'bg-zinc-800 text-white shadow-sm font-semibold'
                     : 'text-zinc-400 hover:text-zinc-200'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
@@ -113,11 +112,10 @@ export default function GuideView({
 
             <button
               onClick={() => copyText(codeSnippets[guideTab], setCopiedGuideSnippet)}
-              className={`text-xs px-3 py-1.5 rounded-lg font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
-                copiedGuideSnippet
+              className={`text-xs px-3 py-1.5 rounded-lg font-mono transition-all flex items-center gap-1.5 cursor-pointer ${copiedGuideSnippet
                   ? 'bg-emerald-500 text-black font-bold shadow-md shadow-emerald-500/20'
                   : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700'
-              }`}
+                }`}
             >
               {copiedGuideSnippet ? (
                 <><span>✓</span> Copied to Clipboard!</>
