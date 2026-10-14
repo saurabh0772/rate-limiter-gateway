@@ -28,32 +28,31 @@ export default function AnalyticsView({
   const [copiedLogCurl, setCopiedLogCurl] = useState(false);
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-200">
+    <div className="space-y-8 animate-in fade-in duration-150">
       {/* Step 3: Analytics & Anomaly Detection Section */}
-      <section className="bg-zinc-900/70 backdrop-blur-xl border border-zinc-800/90 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden space-y-8">
+      <section className="bg-white border border-[#E5E2DA] rounded-2xl p-6 sm:p-8 shadow-2xs relative space-y-8">
         {/* Anomaly Detection Banner if triggered */}
         {anomaliesData.hasAnomaly && !dismissedAnomaly && anomaliesData.anomalies?.length > 0 && (
-          <div className="p-4 sm:p-5 rounded-xl bg-amber-950/20 border border-amber-600/40 shadow-xl flex items-start justify-between gap-4 animate-in fade-in duration-300">
+          <div className="p-4 sm:p-5 rounded-xl bg-[#FDF8EE] border border-[#F3E0BA] text-[#945D18] shadow-2xs flex items-start justify-between gap-4 animate-in fade-in duration-200">
             <div className="flex items-start gap-3">
-              <span className="font-mono text-amber-300 text-xs font-semibold px-2 py-1 rounded bg-amber-500/20 border border-amber-500/30 shrink-0">
-                [ALERT]
-              </span>
+              <div className="px-2 py-1 rounded bg-white border border-[#F3E0BA] text-[#945D18] text-xs font-mono font-bold shrink-0">
+                ALERT
+              </div>
               <div className="space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-sm font-bold text-white tracking-tight">Security & Anomaly Notice</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-rose-500/20 text-rose-300 border border-rose-500/30 tracking-wider font-semibold">
-                    {anomaliesData.anomalies[0]?.severity || 'HIGH'}
+                  <span className="text-sm font-bold text-[#1C1F1A] tracking-tight">Security &amp; Anomaly Alert</span>
+                  <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-[#C8623D] text-white tracking-wider">
+                    {anomaliesData.anomalies[0]?.severity || 'HIGH'} SEVERITY
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-medium">
+                <p className="text-xs sm:text-sm text-[#945D18] leading-relaxed font-medium">
                   {anomaliesData.anomalies[0]?.message}
                 </p>
                 {anomaliesData.anomalies.length > 1 && (
                   <div className="pt-1.5 space-y-1">
                     {anomaliesData.anomalies.slice(1).map((anom, idx) => (
-                      <div key={idx} className="text-xs text-zinc-400 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                        <span>{anom.message}</span>
+                      <div key={idx} className="text-xs text-[#945D18]/90 font-mono">
+                        — {anom.message}
                       </div>
                     ))}
                   </div>
@@ -62,7 +61,7 @@ export default function AnalyticsView({
             </div>
             <button
               onClick={() => setDismissedAnomaly(true)}
-              className="text-xs text-zinc-400 hover:text-white px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 transition-colors cursor-pointer shrink-0 font-mono"
+              className="text-xs text-[#5F6359] hover:text-[#1C1F1A] px-2.5 py-1 rounded-lg bg-white hover:bg-[#F2F0E8] border border-[#E5E2DA] transition-colors cursor-pointer shrink-0 shadow-2xs font-mono"
             >
               Dismiss
             </button>
@@ -70,16 +69,15 @@ export default function AnalyticsView({
         )}
 
         {/* Section Header & Period / Refresh Controls */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-800/80">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#E5E2DA]">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-mono font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20 mb-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.8)]" />
+            <div className="inline-flex items-center px-2.5 py-0.5 rounded text-[10px] font-mono font-semibold uppercase tracking-wider bg-[#EDF4EF] text-[#3F6E4E] border border-[#C9DEC9] mb-2">
               Gateway Telemetry
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
-              Analytics & Anomaly Detection
+            <h2 className="text-xl sm:text-2xl font-bold text-[#1C1F1A] tracking-tight flex items-center gap-2">
+              Analytics &amp; Anomaly Detection
             </h2>
-            <p className="text-xs sm:text-sm text-zinc-400 mt-1">
+            <p className="text-xs sm:text-sm text-[#5F6359] mt-1">
               Monitor request throughput, rate limit enforcement, and anomalous spikes across your proxy routes.
             </p>
           </div>
@@ -87,19 +85,19 @@ export default function AnalyticsView({
           {/* Controls: Period Selector & Auto-refresh */}
           <div className="flex flex-wrap items-center gap-2.5">
             {/* Period selector */}
-            <div className="flex items-center bg-black/60 p-1 rounded-xl border border-zinc-800/80 font-mono">
+            <div className="flex items-center bg-[#FAF8F5] p-1 rounded-xl border border-[#E5E2DA]">
               {[
-                { id: '24h', label: '24H' },
-                { id: '7d', label: '7D' },
-                { id: '30d', label: '30D' }
+                { id: '24h', label: '24 Hours' },
+                { id: '7d', label: '7 Days' },
+                { id: '30d', label: '30 Days' }
               ].map(p => (
                 <button
                   key={p.id}
                   onClick={() => setAnalyticsPeriod(p.id)}
                   className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
                     analyticsPeriod === p.id
-                      ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-500/25'
-                      : 'text-zinc-400 hover:text-zinc-200'
+                      ? 'bg-[#C8623D] text-white font-semibold shadow-2xs'
+                      : 'text-[#5F6359] hover:text-[#1C1F1A]'
                   }`}
                 >
                   {p.label}
@@ -112,20 +110,19 @@ export default function AnalyticsView({
               onClick={() => setAnalyticsAutoRefresh(!analyticsAutoRefresh)}
               className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl border transition-all cursor-pointer font-mono ${
                 analyticsAutoRefresh
-                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
-                  : 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:text-zinc-300'
+                  ? 'bg-[#EDF4EF] border-[#C9DEC9] text-[#3F6E4E] font-semibold'
+                  : 'bg-[#FAF8F5] border-[#E5E2DA] text-[#5F6359] hover:text-[#1C1F1A]'
               }`}
               title="Toggle automatic refresh every 30 seconds"
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${analyticsAutoRefresh ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]' : 'bg-zinc-600'}`} />
-              <span>Auto (30s)</span>
+              <span>{analyticsAutoRefresh ? 'Auto-refresh: ON' : 'Auto-refresh: OFF'}</span>
             </button>
 
             {/* Manual Refresh Button */}
             <button
               onClick={() => fetchAnalytics(true)}
               disabled={loadingAnalytics}
-              className="text-xs px-3 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 active:scale-95 border border-zinc-800 text-zinc-200 transition-all cursor-pointer disabled:opacity-50 font-mono"
+              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl bg-[#F2F0E8] hover:bg-[#E5E2DA] active:scale-95 border border-[#E5E2DA] text-[#1C1F1A] transition-all cursor-pointer font-mono disabled:opacity-50"
               title="Refresh metrics now"
             >
               <span>{loadingAnalytics ? 'Updating...' : 'Sync'}</span>
@@ -136,53 +133,55 @@ export default function AnalyticsView({
         {/* Row 1: 4 Summary Metric Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {/* Card 1: Total Requests */}
-          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-blue-500/40 transition-all">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-blue-400 font-mono">Total Requests</span>
+          <div className="p-5 rounded-xl bg-[#FAF8F5] border border-[#E5E2DA] relative group hover:border-[#C8623D]/40 transition-all">
+            <div className="flex items-center justify-between text-[#5F6359] mb-2">
+              <span className="text-xs font-semibold uppercase tracking-wider">Total Requests</span>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white border border-[#E5E2DA]">REQ</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-[#1C1F1A] font-mono tracking-tight">
               {(analyticsSummary.total || 0).toLocaleString()}
             </div>
-            <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500">
-              <span>In last {analyticsPeriod}</span>
-              <span className="text-blue-400 font-mono font-medium">+{analyticsSummary.requestsLastHour || 0} this hr</span>
+            <div className="mt-2 flex items-center justify-between text-[11px] text-[#5F6359]">
+              <span>Last {analyticsPeriod}</span>
+              <span className="text-[#C8623D] font-medium font-mono">+{analyticsSummary.requestsLastHour || 0} this hr</span>
             </div>
           </div>
 
           {/* Card 2: Blocked Requests (429) */}
-          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-rose-500/40 transition-all">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-rose-400 font-mono">Blocked (429)</span>
+          <div className="p-5 rounded-xl bg-[#FAF8F5] border border-[#E5E2DA] relative group hover:border-[#F5C7C3] transition-all">
+            <div className="flex items-center justify-between text-[#5F6359] mb-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-[#B33B32]">Blocked (429)</span>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-[#FDF2F0] text-[#B33B32] border border-[#F5C7C3]">429</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-rose-400 font-mono tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-[#B33B32] font-mono tracking-tight">
               {(analyticsSummary.blocked || 0).toLocaleString()}
             </div>
-            <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500">
+            <div className="mt-2 flex items-center justify-between text-[11px] text-[#5F6359]">
               <span>Rate limited</span>
-              <span className="text-rose-400 font-mono font-semibold">
-                {analyticsSummary.total > 0 ? ((analyticsSummary.blocked / analyticsSummary.total) * 100).toFixed(1) : '0'}%
+              <span className="text-[#B33B32] font-medium font-mono">
+                {analyticsSummary.total > 0 ? ((analyticsSummary.blocked / analyticsSummary.total) * 100).toFixed(1) : '0'}% blocked
               </span>
             </div>
           </div>
 
           {/* Card 3: Success Rate */}
-          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-emerald-500/40 transition-all flex items-center justify-between">
+          <div className="p-5 rounded-xl bg-[#FAF8F5] border border-[#E5E2DA] relative group hover:border-[#C9DEC9] transition-all flex items-center justify-between">
             <div>
-              <div className="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-2 font-mono">
+              <div className="text-xs font-semibold uppercase tracking-wider text-[#3F6E4E] mb-2">
                 Success Rate
               </div>
-              <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#3F6E4E] font-mono tracking-tight">
                 {analyticsSummary.successRate || 100}%
               </div>
-              <div className="mt-2 text-[11px] text-zinc-500 font-mono">
-                <span className="text-emerald-400 font-semibold">{(analyticsSummary.allowed || 0).toLocaleString()}</span> allowed
+              <div className="mt-2 text-[11px] text-[#5F6359]">
+                {(analyticsSummary.allowed || 0).toLocaleString()} allowed
               </div>
             </div>
 
             {/* Circular Gauge */}
             <div className="relative w-14 h-14 shrink-0 flex items-center justify-center">
               <svg className="w-14 h-14 -rotate-90" viewBox="0 0 48 48">
-                <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="4" className="text-zinc-800" fill="transparent" />
+                <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="4" className="text-[#E5E2DA]" fill="transparent" />
                 <circle
                   cx="24"
                   cy="24"
@@ -192,27 +191,28 @@ export default function AnalyticsView({
                   strokeDasharray={2 * Math.PI * 20}
                   strokeDashoffset={2 * Math.PI * 20 - ((analyticsSummary.successRate || 100) / 100) * (2 * Math.PI * 20)}
                   strokeLinecap="round"
-                  className="text-emerald-400 transition-all duration-500"
+                  className="text-[#3F6E4E] transition-all duration-500"
                   fill="transparent"
                 />
               </svg>
-              <span className="absolute text-[11px] font-bold text-white font-mono">
+              <span className="absolute text-[11px] font-bold text-[#1C1F1A] font-mono">
                 {Math.round(analyticsSummary.successRate || 100)}%
               </span>
             </div>
           </div>
 
           {/* Card 4: Avg Response Time */}
-          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-amber-500/40 transition-all">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-amber-400 font-mono">Avg Latency</span>
+          <div className="p-5 rounded-xl bg-[#FAF8F5] border border-[#E5E2DA] relative group hover:border-[#C8623D]/40 transition-all">
+            <div className="flex items-center justify-between text-[#5F6359] mb-2">
+              <span className="text-xs font-semibold uppercase tracking-wider">Avg Latency</span>
+              <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white border border-[#E5E2DA]">ms</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-amber-300 font-mono tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-[#1C1F1A] font-mono tracking-tight">
               {analyticsSummary.avgResponseTime || 0}ms
             </div>
-            <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+            <div className="mt-2 flex items-center justify-between text-[11px] text-[#5F6359]">
               <span>Gateway proxy</span>
-              <span className="text-zinc-400">{analyticsSummary.activeKeys || 0} active keys</span>
+              <span className="text-[#5F6359] font-mono">{analyticsSummary.activeKeys || 0} active keys</span>
             </div>
           </div>
         </div>
@@ -220,41 +220,41 @@ export default function AnalyticsView({
         {/* Row 2: Timeseries Chart (70%) + Top Paths (30%) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           {/* Left 70%: Timeseries Chart */}
-          <div className="lg:col-span-8 p-5 sm:p-6 rounded-xl bg-black/40 border border-zinc-800/80 flex flex-col justify-between">
+          <div className="lg:col-span-8 p-5 sm:p-6 rounded-xl bg-[#FAF8F5] border border-[#E5E2DA] flex flex-col justify-between">
             <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
               <div>
-                <h3 className="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+                <h3 className="text-sm font-bold text-[#1C1F1A] tracking-tight flex items-center gap-2">
                   Request Volume Over Time
                 </h3>
-                <p className="text-xs text-zinc-500">
+                <p className="text-xs text-[#5F6359]">
                   Distribution of allowed vs blocked traffic across {analyticsPeriod}
                 </p>
               </div>
               <div className="flex items-center gap-4 text-xs font-mono">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-blue-500 shadow-sm shadow-blue-500/50 inline-block" />
-                  <span className="text-zinc-300">Allowed</span>
+                  <span className="w-3 h-2 rounded-2xs bg-[#3F6E4E] inline-block" />
+                  <span className="text-[#5F6359]">Allowed</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-rose-500 shadow-sm shadow-rose-500/50 inline-block" />
-                  <span className="text-zinc-300">Blocked (429)</span>
+                  <span className="w-3 h-2 rounded-2xs bg-[#B33B32] inline-block" />
+                  <span className="text-[#5F6359]">Blocked (429)</span>
                 </div>
               </div>
             </div>
 
             {/* Chart Visual Bars */}
-            <div className="h-48 sm:h-56 w-full flex items-end gap-1 sm:gap-1.5 pt-8 pb-2 relative border-b border-zinc-800/80">
+            <div className="h-48 sm:h-56 w-full flex items-end gap-1 sm:gap-1.5 pt-8 pb-2 relative border-b border-[#E5E2DA]">
               {/* Horizontal Guide lines */}
-              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
-                <div className="border-b border-dashed border-zinc-700 w-full" />
-                <div className="border-b border-dashed border-zinc-700 w-full" />
-                <div className="border-b border-dashed border-zinc-700 w-full" />
+              <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-40">
+                <div className="border-b border-dashed border-[#E5E2DA] w-full" />
+                <div className="border-b border-dashed border-[#E5E2DA] w-full" />
+                <div className="border-b border-dashed border-[#E5E2DA] w-full" />
               </div>
 
               {timeseriesData.length === 0 || timeseriesData.every(d => d.total === 0) ? (
-                <div className="w-full h-full flex flex-col items-center justify-center text-xs text-zinc-500 font-mono space-y-1">
+                <div className="w-full h-full flex flex-col items-center justify-center text-xs text-[#5F6359] font-mono space-y-1">
                   <span>Awaiting incoming traffic...</span>
-                  <span className="text-[11px] text-zinc-600">Send requests through the proxy gateway to plot data points</span>
+                  <span className="text-[11px] text-[#5F6359]/70">Send requests through the proxy gateway to plot data points</span>
                 </div>
               ) : (
                 timeseriesData.map((slot, index) => {
@@ -272,28 +272,28 @@ export default function AnalyticsView({
                     >
                       {/* Hover Tooltip */}
                       {hoveredBarIndex === index && (
-                        <div className="absolute -top-16 z-30 bg-zinc-950 border border-zinc-800 p-2 rounded-lg shadow-xl text-[11px] font-mono whitespace-nowrap pointer-events-none transform -translate-x-1/2 left-1/2 space-y-0.5">
-                          <div className="text-zinc-400 font-bold">{slot.time}</div>
-                          <div className="text-white">Total: <strong className="text-zinc-100">{slot.total}</strong></div>
-                          <div className="text-blue-400">Allowed: {slot.allowed}</div>
-                          <div className="text-rose-400">Blocked: {slot.blocked}</div>
+                        <div className="absolute -top-16 z-30 bg-[#1C1F1A] border border-[#333830] p-2 rounded-lg shadow-lg text-[11px] font-mono whitespace-nowrap pointer-events-none transform -translate-x-1/2 left-1/2 space-y-0.5 text-[#FAF8F5]">
+                          <div className="text-[#E5E2DA] font-bold">{slot.time}</div>
+                          <div>Total: <strong>{slot.total}</strong></div>
+                          <div className="text-[#EDF4EF]">Allowed: {slot.allowed}</div>
+                          <div className="text-[#F5C7C3]">Blocked: {slot.blocked}</div>
                         </div>
                       )}
 
                       {/* Bar Body */}
                       <div
                         style={{ height: `${totalHeightPct}%` }}
-                        className="w-full max-w-[18px] rounded-t-sm overflow-hidden flex flex-col-reverse transition-all duration-300 group-hover:brightness-125"
+                        className="w-full max-w-[18px] rounded-t-sm overflow-hidden flex flex-col-reverse transition-all duration-200 group-hover:opacity-85"
                       >
-                        {/* Allowed Sapphire Segment */}
+                        {/* Allowed Green Segment */}
                         <div
                           style={{ height: `${allowedPct}%` }}
-                          className="w-full bg-blue-500 shadow-sm"
+                          className="w-full bg-[#3F6E4E]"
                         />
-                        {/* Blocked Rose Segment */}
+                        {/* Blocked Red Segment */}
                         <div
                           style={{ height: `${blockedPct}%` }}
-                          className="w-full bg-rose-500 shadow-sm"
+                          className="w-full bg-[#B33B32]"
                         />
                       </div>
                     </div>
@@ -303,7 +303,7 @@ export default function AnalyticsView({
             </div>
 
             {/* X-axis Labels */}
-            <div className="flex justify-between items-center text-[10px] text-zinc-500 font-mono pt-2 px-1">
+            <div className="flex justify-between items-center text-[10px] text-[#5F6359] font-mono pt-2 px-1">
               {timeseriesData.length > 0 && (
                 <>
                   <span>{timeseriesData[0]?.time}</span>
@@ -315,12 +315,12 @@ export default function AnalyticsView({
           </div>
 
           {/* Right 30%: Top Paths */}
-          <div className="lg:col-span-4 p-5 sm:p-6 rounded-xl bg-black/40 border border-zinc-800/80 flex flex-col justify-between">
+          <div className="lg:col-span-4 p-5 sm:p-6 rounded-xl bg-[#FAF8F5] border border-[#E5E2DA] flex flex-col justify-between">
             <div>
-              <h3 className="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+              <h3 className="text-sm font-bold text-[#1C1F1A] tracking-tight flex items-center gap-2">
                 Top Endpoints
               </h3>
-              <p className="text-xs text-zinc-500 mb-4">
+              <p className="text-xs text-[#5F6359] mb-4">
                 Most requested routes across API keys
               </p>
 
@@ -331,23 +331,23 @@ export default function AnalyticsView({
                     return (
                       <div key={idx} className="space-y-1.5">
                         <div className="flex items-center justify-between text-xs font-mono">
-                          <span className="text-zinc-200 truncate font-semibold" title={tp.path || tp._id}>
+                          <span className="text-[#1C1F1A] truncate font-semibold" title={tp.path || tp._id}>
                             {tp.path || tp._id}
                           </span>
                           <div className="flex items-center gap-1.5 shrink-0">
-                            <span className="text-zinc-400">{tp.total} reqs</span>
+                            <span className="text-[#5F6359]">{tp.total} reqs</span>
                             {tp.blocked > 0 && (
-                              <span className="text-[10px] text-rose-400 bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.2 rounded font-mono">
+                              <span className="text-[10px] text-[#B33B32] bg-[#FDF2F0] border border-[#F5C7C3] px-1.5 py-0.2 rounded font-semibold">
                                 {tp.blocked} blocked
                               </span>
                             )}
                           </div>
                         </div>
                         {/* Progress bar */}
-                        <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                        <div className="w-full h-1.5 bg-[#E5E2DA] rounded-full overflow-hidden">
                           <div
                             style={{ width: `${pct}%` }}
-                            className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"
+                            className="h-full bg-[#C8623D] rounded-full"
                           />
                         </div>
                       </div>
@@ -356,15 +356,15 @@ export default function AnalyticsView({
                 </div>
               ) : (
                 <div className="h-44 flex flex-col items-center justify-center text-center p-4">
-                  <span className="text-xs text-zinc-500 font-mono">No route paths recorded yet</span>
-                  <span className="text-[11px] text-zinc-600 mt-1">Make requests to /posts or your custom endpoints</span>
+                  <span className="text-xs font-mono text-[#5F6359] uppercase tracking-wider">No Route Activity</span>
+                  <span className="text-[11px] text-[#5F6359]/70 mt-1">Make requests to /posts or upstream target endpoints</span>
                 </div>
               )}
             </div>
 
-            <div className="pt-3 border-t border-zinc-800/60 text-[11px] text-zinc-500 font-mono flex items-center justify-between">
+            <div className="pt-3 border-t border-[#E5E2DA] text-[11px] text-[#5F6359] font-mono flex items-center justify-between">
               <span>Top 5 endpoints</span>
-              <span className="text-zinc-400">Live proxy stats</span>
+              <span className="text-[#1C1F1A] font-medium">Live telemetry</span>
             </div>
           </div>
         </div>
@@ -373,11 +373,10 @@ export default function AnalyticsView({
         <div className="space-y-4 pt-2">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.8)]" />
-              <h3 className="text-sm font-bold text-white tracking-tight">
+              <h3 className="text-sm font-bold text-[#1C1F1A] tracking-tight">
                 Live Request Stream
               </h3>
-              <span className="text-xs text-blue-400 font-mono">
+              <span className="text-xs text-[#5F6359] font-mono">
                 ({logs.length} logged)
               </span>
             </div>
@@ -385,7 +384,7 @@ export default function AnalyticsView({
             {/* Filters & Search */}
             <div className="flex flex-wrap items-center gap-2">
               {/* Status Pills */}
-              <div className="flex items-center bg-black/60 p-1 rounded-lg border border-zinc-800/80 text-xs font-mono">
+              <div className="flex items-center bg-[#FAF8F5] p-1 rounded-lg border border-[#E5E2DA] text-xs">
                 {[
                   { id: 'all', label: 'All' },
                   { id: 'allowed', label: 'Allowed' },
@@ -396,8 +395,8 @@ export default function AnalyticsView({
                     onClick={() => setLogFilter(f.id)}
                     className={`px-2.5 py-1 rounded-md font-medium transition-all cursor-pointer ${
                       logFilter === f.id
-                        ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-500/25'
-                        : 'text-zinc-400 hover:text-zinc-200'
+                        ? 'bg-white text-[#1C1F1A] font-semibold shadow-2xs'
+                        : 'text-[#5F6359] hover:text-[#1C1F1A]'
                     }`}
                   >
                     {f.label}
@@ -411,15 +410,15 @@ export default function AnalyticsView({
                   type="text"
                   value={logSearch}
                   onChange={e => setLogSearch(e.target.value)}
-                  placeholder="Search path (e.g. /posts)..."
-                  className="bg-black/60 border border-zinc-800 focus:border-blue-500 rounded-lg px-3 py-1.5 text-xs text-zinc-200 placeholder:text-zinc-600 outline-none w-44 sm:w-56 font-mono"
+                  placeholder="Filter path..."
+                  className="bg-[#FAF8F5] border border-[#E5E2DA] focus:border-[#C8623D] focus:ring-1 focus:ring-[#C8623D] rounded-lg px-3 py-1.5 text-xs text-[#1C1F1A] placeholder:text-[#5F6359]/60 outline-none w-44 sm:w-56 font-mono transition-all"
                 />
                 {logSearch && (
                   <button
                     onClick={() => setLogSearch('')}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-white text-xs cursor-pointer font-mono"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-[#5F6359] hover:text-[#1C1F1A] text-xs cursor-pointer font-mono"
                   >
-                    x
+                    Clear
                   </button>
                 )}
               </div>
@@ -427,10 +426,10 @@ export default function AnalyticsView({
           </div>
 
           {/* Logs Table */}
-          <div className="overflow-x-auto rounded-xl border border-zinc-800/80 bg-black/40">
+          <div className="overflow-x-auto rounded-xl border border-[#E5E2DA] bg-white">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-zinc-800 bg-zinc-950/60 text-zinc-400 font-mono text-[11px] uppercase tracking-wider">
+                <tr className="border-b border-[#E5E2DA] bg-[#FAF8F5] text-[#5F6359] font-mono text-[11px] uppercase tracking-wider">
                   <th className="py-3 px-4">Timestamp</th>
                   <th className="py-3 px-4">Method</th>
                   <th className="py-3 px-4">Path</th>
@@ -440,14 +439,14 @@ export default function AnalyticsView({
                   <th className="py-3 px-4 text-right">Latency</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-800/50">
+              <tbody className="divide-y divide-[#E5E2DA]">
                 {logs.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="py-12 text-center text-zinc-500 font-mono">
+                    <td colSpan={7} className="py-12 text-center text-[#5F6359]">
                       <div className="flex flex-col items-center justify-center space-y-2">
-                        <span className="font-semibold text-zinc-300">No requests recorded</span>
-                        <p className="text-xs text-zinc-500 max-w-sm">
-                          Send requests through the proxy gateway with your API key to view real-time logs.
+                        <span className="font-semibold text-[#1C1F1A]">No requests recorded yet</span>
+                        <p className="text-xs text-[#5F6359] max-w-sm">
+                          Send a request through the gateway using cURL or your client application to see real-time streaming telemetry.
                         </p>
                         <div className="pt-2">
                           <button
@@ -455,9 +454,9 @@ export default function AnalyticsView({
                               const sampleKey = keys[0]?.keyPrefix ? `${keys[0].keyPrefix}...` : 'live_...';
                               copyText(`curl -i -X GET "${GATEWAY_URL}/posts" -H "x-api-key: ${sampleKey}"`, setCopiedLogCurl);
                             }}
-                            className="text-xs px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-mono cursor-pointer transition-all shadow-md shadow-blue-500/25"
+                            className="text-xs px-3 py-1.5 rounded-lg bg-[#C8623D] hover:bg-[#B95431] text-white font-mono cursor-pointer transition-all shadow-2xs border border-[#B95431]/20"
                           >
-                            {copiedLogCurl ? 'Copied' : 'Copy Sample cURL'}
+                            {copiedLogCurl ? 'Command Copied' : 'Copy Sample cURL'}
                           </button>
                         </div>
                       </div>
@@ -465,9 +464,9 @@ export default function AnalyticsView({
                   </tr>
                 ) : (
                   logs.map(log => (
-                    <tr key={log._id} className="hover:bg-zinc-900/40 transition-colors">
+                    <tr key={log._id} className="hover:bg-[#FAF8F5]/70 transition-colors">
                       {/* Timestamp */}
-                      <td className="py-3 px-4 font-mono text-zinc-400 whitespace-nowrap" title={new Date(log.timestamp).toLocaleString()}>
+                      <td className="py-3 px-4 font-mono text-[#5F6359] whitespace-nowrap" title={new Date(log.timestamp).toLocaleString()}>
                         {formatLogTime(log.timestamp)}
                       </td>
 
@@ -479,7 +478,7 @@ export default function AnalyticsView({
                       </td>
 
                       {/* Path */}
-                      <td className="py-3 px-4 font-mono text-zinc-200 font-medium max-w-xs truncate" title={log.path}>
+                      <td className="py-3 px-4 font-mono text-[#1C1F1A] font-medium max-w-xs truncate" title={log.path}>
                         {log.path}
                       </td>
 
@@ -489,21 +488,24 @@ export default function AnalyticsView({
                       </td>
 
                       {/* API Key */}
-                      <td className="py-3 px-4 text-zinc-400 font-mono whitespace-nowrap">
-                        <span className="text-zinc-300 font-medium">{log.apiKeyName}</span>
+                      <td className="py-3 px-4 text-[#5F6359] font-mono whitespace-nowrap">
+                        <span className="text-[#1C1F1A] font-medium">{log.apiKeyName}</span>
                         {log.apiKeyPrefix && (
-                          <span className="text-zinc-500 text-[10px] ml-1.5">({log.apiKeyPrefix})</span>
+                          <span className="text-[#5F6359] text-[10px] ml-1.5 font-normal">({log.apiKeyPrefix})</span>
                         )}
                       </td>
 
                       {/* Client IP */}
-                      <td className="py-3 px-4 font-mono text-zinc-400 whitespace-nowrap">
+                      <td className="py-3 px-4 font-mono text-[#5F6359] whitespace-nowrap">
                         {log.ip || '127.0.0.1'}
                       </td>
 
                       {/* Latency */}
                       <td className="py-3 px-4 text-right font-mono whitespace-nowrap">
-                        <span className="px-2 py-0.5 rounded text-[11px] font-medium bg-zinc-900 text-zinc-300 border border-zinc-800">
+                        <span className={`px-2 py-0.5 rounded text-[11px] font-medium ${(log.responseTimeMs || 0) < 100
+                            ? 'bg-[#EDF4EF] text-[#3F6E4E] border border-[#C9DEC9]'
+                            : 'bg-[#FDF8EE] text-[#945D18] border border-[#F3E0BA]'
+                          }`}>
                           {log.responseTimeMs || 0}ms
                         </span>
                       </td>

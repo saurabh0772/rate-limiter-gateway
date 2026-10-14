@@ -1,26 +1,36 @@
 @import "tailwindcss";
 
+:root {
+  --color-primary: #C8623D;
+  --color-primary-hover: #B95431;
+  --color-primary-light: #FBEFE9;
+  --color-secondary: #3F6E4E;
+  --color-secondary-light: #EDF4EF;
+  --color-background: #FAF8F5;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F2F0E8;
+  --color-text: #1C1F1A;
+  --color-text-muted: #5F6359;
+  --color-border: #E5E2DA;
+}
+
 @layer base {
   body {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background-color: #09090b;
-    color: #f4f4f5;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #FAF8F5;
+    color: #1C1F1A;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  
-  code, pre, .font-mono {
-    font-family: 'JetBrains Mono', monospace;
+
+  code,
+  pre,
+  .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   }
 }
 
-/* Subtle background grid pattern */
-.bg-grid-pattern {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-}
-
-/* Custom minimal range slider */
+/* Custom range slider with refined terracotta accent */
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
@@ -28,7 +38,7 @@ input[type="range"] {
   height: 6px;
   border-radius: 9999px;
   outline: none;
-  background: #27272a;
+  background: #E5E2DA;
   transition: all 0.2s ease;
   cursor: pointer;
 }
@@ -39,16 +49,15 @@ input[type="range"]::-webkit-slider-thumb {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid #3b82f6;
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  background: #FFFFFF;
+  border: 2.5px solid #C8623D;
+  box-shadow: 0 1px 2px rgba(28, 31, 26, 0.12);
   cursor: grab;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.15);
-  box-shadow: 0 0 14px rgba(59, 130, 246, 0.7);
+  transform: scale(1.1);
 }
 
 input[type="range"]::-webkit-slider-thumb:active {
@@ -59,13 +68,13 @@ input[type="range"]::-moz-range-thumb {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid #3b82f6;
-  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  background: #FFFFFF;
+  border: 2.5px solid #C8623D;
+  box-shadow: 0 1px 2px rgba(28, 31, 26, 0.12);
   cursor: grab;
   transition: transform 0.15s ease;
 }
 
 input[type="range"]::-moz-range-thumb:hover {
-  transform: scale(1.15);
+  transform: scale(1.1);
 }

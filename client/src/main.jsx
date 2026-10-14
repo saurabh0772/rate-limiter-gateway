@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 import { ClerkProvider } from '@clerk/clerk-react'
-import { dark } from '@clerk/themes'
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 if (!PUBLISHABLE_KEY) throw new Error("Missing VITE_CLERK_PUBLISHABLE_KEY")
@@ -14,12 +13,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       publishableKey={PUBLISHABLE_KEY}
       afterSignOutUrl="/"
       appearance={{
-        baseTheme: dark,
         variables: {
-          colorPrimary: '#2563eb',
-          colorBackground: '#09090b',
-          colorInputBackground: '#18181b',
-          colorInputText: '#ffffff'
+          colorPrimary: '#C8623D',
+          colorBackground: '#FFFFFF',
+          colorInputBackground: '#FAF8F5',
+          colorInputText: '#1C1F1A',
+          colorText: '#1C1F1A',
+          colorTextSecondary: '#5F6359',
+          borderRadius: '0.625rem'
         }
       }}
     >
