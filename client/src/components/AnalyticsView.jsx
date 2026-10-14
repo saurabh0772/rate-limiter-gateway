@@ -33,15 +33,15 @@ export default function AnalyticsView({
       <section className="bg-zinc-900/70 backdrop-blur-xl border border-zinc-800/90 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden space-y-8">
         {/* Anomaly Detection Banner if triggered */}
         {anomaliesData.hasAnomaly && !dismissedAnomaly && anomaliesData.anomalies?.length > 0 && (
-          <div className="p-4 sm:p-5 rounded-xl bg-zinc-950 border border-zinc-800 shadow-xl flex items-start justify-between gap-4 animate-in fade-in duration-300">
+          <div className="p-4 sm:p-5 rounded-xl bg-amber-950/20 border border-amber-600/40 shadow-xl flex items-start justify-between gap-4 animate-in fade-in duration-300">
             <div className="flex items-start gap-3">
-              <span className="font-mono text-zinc-400 text-xs font-semibold px-2 py-1 rounded bg-zinc-900 border border-zinc-800 shrink-0">
+              <span className="font-mono text-amber-300 text-xs font-semibold px-2 py-1 rounded bg-amber-500/20 border border-amber-500/30 shrink-0">
                 [ALERT]
               </span>
               <div className="space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-sm font-bold text-white tracking-tight">Security & Anomaly Notice</span>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-zinc-800 text-zinc-300 border border-zinc-700 tracking-wider">
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-rose-500/20 text-rose-300 border border-rose-500/30 tracking-wider font-semibold">
                     {anomaliesData.anomalies[0]?.severity || 'HIGH'}
                   </span>
                 </div>
@@ -52,7 +52,7 @@ export default function AnalyticsView({
                   <div className="pt-1.5 space-y-1">
                     {anomaliesData.anomalies.slice(1).map((anom, idx) => (
                       <div key={idx} className="text-xs text-zinc-400 flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
                         <span>{anom.message}</span>
                       </div>
                     ))}
@@ -72,8 +72,8 @@ export default function AnalyticsView({
         {/* Section Header & Period / Refresh Controls */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-800/80">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-mono font-medium bg-zinc-900 text-zinc-400 border border-zinc-800 mb-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-mono font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20 mb-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.8)]" />
               Gateway Telemetry
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
@@ -98,7 +98,7 @@ export default function AnalyticsView({
                   onClick={() => setAnalyticsPeriod(p.id)}
                   className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-all cursor-pointer ${
                     analyticsPeriod === p.id
-                      ? 'bg-white text-black font-semibold shadow-sm'
+                      ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-500/25'
                       : 'text-zinc-400 hover:text-zinc-200'
                   }`}
                 >
@@ -112,12 +112,12 @@ export default function AnalyticsView({
               onClick={() => setAnalyticsAutoRefresh(!analyticsAutoRefresh)}
               className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl border transition-all cursor-pointer font-mono ${
                 analyticsAutoRefresh
-                  ? 'bg-zinc-800 border-zinc-700 text-zinc-200'
+                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
                   : 'bg-zinc-900 border-zinc-800 text-zinc-500 hover:text-zinc-300'
               }`}
               title="Toggle automatic refresh every 30 seconds"
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${analyticsAutoRefresh ? 'bg-zinc-300' : 'bg-zinc-600'}`} />
+              <span className={`w-1.5 h-1.5 rounded-full ${analyticsAutoRefresh ? 'bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]' : 'bg-zinc-600'}`} />
               <span>Auto (30s)</span>
             </button>
 
@@ -136,46 +136,46 @@ export default function AnalyticsView({
         {/* Row 1: 4 Summary Metric Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {/* Card 1: Total Requests */}
-          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-zinc-700 transition-all">
-            <div className="flex items-center justify-between text-zinc-400 mb-2">
-              <span className="text-xs font-semibold uppercase tracking-wider">Total Requests</span>
+          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-blue-500/40 transition-all">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-blue-400 font-mono">Total Requests</span>
             </div>
             <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">
               {(analyticsSummary.total || 0).toLocaleString()}
             </div>
             <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500">
               <span>In last {analyticsPeriod}</span>
-              <span className="text-zinc-300 font-mono">+{analyticsSummary.requestsLastHour || 0} this hr</span>
+              <span className="text-blue-400 font-mono font-medium">+{analyticsSummary.requestsLastHour || 0} this hr</span>
             </div>
           </div>
 
           {/* Card 2: Blocked Requests (429) */}
-          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-zinc-700 transition-all">
-            <div className="flex items-center justify-between text-zinc-400 mb-2">
-              <span className="text-xs font-semibold uppercase tracking-wider">Blocked (429)</span>
+          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-rose-500/40 transition-all">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-rose-400 font-mono">Blocked (429)</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-zinc-200 font-mono tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-rose-400 font-mono tracking-tight">
               {(analyticsSummary.blocked || 0).toLocaleString()}
             </div>
             <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500">
               <span>Rate limited</span>
-              <span className="text-zinc-400 font-mono">
+              <span className="text-rose-400 font-mono font-semibold">
                 {analyticsSummary.total > 0 ? ((analyticsSummary.blocked / analyticsSummary.total) * 100).toFixed(1) : '0'}%
               </span>
             </div>
           </div>
 
           {/* Card 3: Success Rate */}
-          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-zinc-700 transition-all flex items-center justify-between">
+          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-emerald-500/40 transition-all flex items-center justify-between">
             <div>
-              <div className="text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-2">
+              <div className="text-xs font-semibold uppercase tracking-wider text-emerald-400 mb-2 font-mono">
                 Success Rate
               </div>
               <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">
                 {analyticsSummary.successRate || 100}%
               </div>
               <div className="mt-2 text-[11px] text-zinc-500 font-mono">
-                {(analyticsSummary.allowed || 0).toLocaleString()} allowed
+                <span className="text-emerald-400 font-semibold">{(analyticsSummary.allowed || 0).toLocaleString()}</span> allowed
               </div>
             </div>
 
@@ -192,7 +192,7 @@ export default function AnalyticsView({
                   strokeDasharray={2 * Math.PI * 20}
                   strokeDashoffset={2 * Math.PI * 20 - ((analyticsSummary.successRate || 100) / 100) * (2 * Math.PI * 20)}
                   strokeLinecap="round"
-                  className="text-zinc-300 transition-all duration-500"
+                  className="text-emerald-400 transition-all duration-500"
                   fill="transparent"
                 />
               </svg>
@@ -203,11 +203,11 @@ export default function AnalyticsView({
           </div>
 
           {/* Card 4: Avg Response Time */}
-          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-zinc-700 transition-all">
-            <div className="flex items-center justify-between text-zinc-400 mb-2">
-              <span className="text-xs font-semibold uppercase tracking-wider">Avg Latency</span>
+          <div className="p-5 rounded-xl bg-black/60 border border-zinc-800 hover:border-amber-500/40 transition-all">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-amber-400 font-mono">Avg Latency</span>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono tracking-tight">
+            <div className="text-2xl sm:text-3xl font-extrabold text-amber-300 font-mono tracking-tight">
               {analyticsSummary.avgResponseTime || 0}ms
             </div>
             <div className="mt-2 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
@@ -232,12 +232,12 @@ export default function AnalyticsView({
               </div>
               <div className="flex items-center gap-4 text-xs font-mono">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-zinc-300 inline-block" />
-                  <span className="text-zinc-400">Allowed</span>
+                  <span className="w-2.5 h-2.5 rounded-sm bg-blue-500 shadow-sm shadow-blue-500/50 inline-block" />
+                  <span className="text-zinc-300">Allowed</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-sm bg-zinc-700 inline-block" />
-                  <span className="text-zinc-400">Blocked (429)</span>
+                  <span className="w-2.5 h-2.5 rounded-sm bg-rose-500 shadow-sm shadow-rose-500/50 inline-block" />
+                  <span className="text-zinc-300">Blocked (429)</span>
                 </div>
               </div>
             </div>
@@ -275,8 +275,8 @@ export default function AnalyticsView({
                         <div className="absolute -top-16 z-30 bg-zinc-950 border border-zinc-800 p-2 rounded-lg shadow-xl text-[11px] font-mono whitespace-nowrap pointer-events-none transform -translate-x-1/2 left-1/2 space-y-0.5">
                           <div className="text-zinc-400 font-bold">{slot.time}</div>
                           <div className="text-white">Total: <strong className="text-zinc-100">{slot.total}</strong></div>
-                          <div className="text-zinc-300">Allowed: {slot.allowed}</div>
-                          <div className="text-zinc-500">Blocked: {slot.blocked}</div>
+                          <div className="text-blue-400">Allowed: {slot.allowed}</div>
+                          <div className="text-rose-400">Blocked: {slot.blocked}</div>
                         </div>
                       )}
 
@@ -285,15 +285,15 @@ export default function AnalyticsView({
                         style={{ height: `${totalHeightPct}%` }}
                         className="w-full max-w-[18px] rounded-t-sm overflow-hidden flex flex-col-reverse transition-all duration-300 group-hover:brightness-125"
                       >
-                        {/* Allowed Silver Segment */}
+                        {/* Allowed Sapphire Segment */}
                         <div
                           style={{ height: `${allowedPct}%` }}
-                          className="w-full bg-zinc-300"
+                          className="w-full bg-blue-500 shadow-sm"
                         />
-                        {/* Blocked Dark Chrome Segment */}
+                        {/* Blocked Rose Segment */}
                         <div
                           style={{ height: `${blockedPct}%` }}
-                          className="w-full bg-zinc-700"
+                          className="w-full bg-rose-500 shadow-sm"
                         />
                       </div>
                     </div>
@@ -337,7 +337,7 @@ export default function AnalyticsView({
                           <div className="flex items-center gap-1.5 shrink-0">
                             <span className="text-zinc-400">{tp.total} reqs</span>
                             {tp.blocked > 0 && (
-                              <span className="text-[10px] text-zinc-400 bg-zinc-900 border border-zinc-800 px-1.5 py-0.2 rounded font-mono">
+                              <span className="text-[10px] text-rose-400 bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.2 rounded font-mono">
                                 {tp.blocked} blocked
                               </span>
                             )}
@@ -347,7 +347,7 @@ export default function AnalyticsView({
                         <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
                           <div
                             style={{ width: `${pct}%` }}
-                            className="h-full bg-zinc-300 rounded-full"
+                            className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"
                           />
                         </div>
                       </div>
@@ -373,11 +373,11 @@ export default function AnalyticsView({
         <div className="space-y-4 pt-2">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2">
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_6px_rgba(96,165,250,0.8)]" />
               <h3 className="text-sm font-bold text-white tracking-tight">
                 Live Request Stream
               </h3>
-              <span className="text-xs text-zinc-500 font-mono">
+              <span className="text-xs text-blue-400 font-mono">
                 ({logs.length} logged)
               </span>
             </div>
@@ -396,7 +396,7 @@ export default function AnalyticsView({
                     onClick={() => setLogFilter(f.id)}
                     className={`px-2.5 py-1 rounded-md font-medium transition-all cursor-pointer ${
                       logFilter === f.id
-                        ? 'bg-white text-black font-semibold shadow-sm'
+                        ? 'bg-blue-600 text-white font-semibold shadow-md shadow-blue-500/25'
                         : 'text-zinc-400 hover:text-zinc-200'
                     }`}
                   >
@@ -412,7 +412,7 @@ export default function AnalyticsView({
                   value={logSearch}
                   onChange={e => setLogSearch(e.target.value)}
                   placeholder="Search path (e.g. /posts)..."
-                  className="bg-black/60 border border-zinc-800 focus:border-zinc-500 rounded-lg px-3 py-1.5 text-xs text-zinc-200 placeholder:text-zinc-600 outline-none w-44 sm:w-56 font-mono"
+                  className="bg-black/60 border border-zinc-800 focus:border-blue-500 rounded-lg px-3 py-1.5 text-xs text-zinc-200 placeholder:text-zinc-600 outline-none w-44 sm:w-56 font-mono"
                 />
                 {logSearch && (
                   <button
@@ -455,7 +455,7 @@ export default function AnalyticsView({
                               const sampleKey = keys[0]?.keyPrefix ? `${keys[0].keyPrefix}...` : 'live_...';
                               copyText(`curl -i -X GET "${GATEWAY_URL}/posts" -H "x-api-key: ${sampleKey}"`, setCopiedLogCurl);
                             }}
-                            className="text-xs px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 font-mono cursor-pointer transition-all"
+                            className="text-xs px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-mono cursor-pointer transition-all shadow-md shadow-blue-500/25"
                           >
                             {copiedLogCurl ? 'Copied' : 'Copy Sample cURL'}
                           </button>

@@ -34,38 +34,38 @@ export default function DashboardView({
       {/* Top Banner Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         <div className="p-5 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden">
-          <div className="flex items-center justify-between text-zinc-400 mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider">Active Keys</span>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold uppercase tracking-wider text-blue-400 font-mono">Active Keys</span>
           </div>
           <div className="text-3xl font-extrabold text-white font-mono">
             {activeKeysCount} <span className="text-sm font-normal text-zinc-500">/ 3 allowed</span>
           </div>
-          <p className="mt-2 text-xs text-zinc-500">
+          <p className="mt-2 text-xs text-zinc-400">
             {3 - activeKeysCount} key slot{3 - activeKeysCount === 1 ? '' : 's'} available
           </p>
         </div>
 
         <div className="p-5 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden">
-          <div className="flex items-center justify-between text-zinc-400 mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider">Processed Reqs</span>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400 font-mono">Processed Reqs</span>
           </div>
           <div className="text-3xl font-extrabold text-white font-mono">
             {totalProcessed.toLocaleString()}
           </div>
-          <p className="mt-2 text-xs text-zinc-500">
+          <p className="mt-2 text-xs text-zinc-400">
             Total proxy traffic forwarded
           </p>
         </div>
 
         <div className="p-5 rounded-2xl bg-zinc-900/70 border border-zinc-800/80 backdrop-blur-xl relative overflow-hidden">
-          <div className="flex items-center justify-between text-zinc-400 mb-2">
-            <span className="text-xs font-semibold uppercase tracking-wider">Gateway Status</span>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs font-semibold uppercase tracking-wider text-indigo-400 font-mono">Gateway Status</span>
           </div>
           <div className="text-xl font-bold text-white flex items-center gap-2 font-mono truncate">
-            <span className="w-2 h-2 rounded-full bg-zinc-400 shrink-0" />
+            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] shrink-0" />
             <span className="truncate">Operational</span>
           </div>
-          <p className="mt-2 text-xs text-zinc-500 font-mono truncate" title={GATEWAY_URL}>
+          <p className="mt-2 text-xs text-blue-400 font-mono truncate" title={GATEWAY_URL}>
             {GATEWAY_URL}
           </p>
         </div>
@@ -77,7 +77,7 @@ export default function DashboardView({
         {/* Section Header with Search and Actions */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-800/80">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-mono font-medium bg-zinc-900 text-zinc-400 border border-zinc-800 mb-2">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-mono font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20 mb-2">
               Credentials Management
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-2">
@@ -96,7 +96,7 @@ export default function DashboardView({
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 placeholder="Search keys..."
-                className="bg-black/60 border border-zinc-800 focus:border-zinc-500 rounded-xl px-3.5 py-2 text-xs text-zinc-200 placeholder:text-zinc-600 outline-none w-44 sm:w-56 font-mono"
+                className="bg-black/60 border border-zinc-800 focus:border-blue-500 rounded-xl px-3.5 py-2 text-xs text-zinc-200 placeholder:text-zinc-600 outline-none w-44 sm:w-56 font-mono"
               />
               {searchTerm && (
                 <button
@@ -120,7 +120,7 @@ export default function DashboardView({
             {/* Create Key CTA */}
             <button
               onClick={onNavigateCreateKey}
-              className="text-xs px-3.5 py-2 rounded-xl bg-white hover:bg-zinc-200 text-black font-semibold tracking-tight transition-all cursor-pointer whitespace-nowrap"
+              className="text-xs px-3.5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold tracking-tight transition-all shadow-md shadow-blue-500/25 cursor-pointer whitespace-nowrap"
             >
               + Create Key
             </button>
@@ -178,15 +178,15 @@ export default function DashboardView({
                         <span className="font-bold text-white text-sm sm:text-base tracking-tight truncate">
                           {k.name}
                         </span>
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-zinc-900 text-zinc-300 border border-zinc-800">
-                          <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.7)]" />
                           Active
                         </span>
                       </div>
 
                       {/* Prefix & Copy */}
                       <div className="flex items-center gap-2 pt-0.5">
-                        <span className="font-mono text-xs text-zinc-400 tracking-wide">
+                        <span className="font-mono text-xs text-zinc-300 tracking-wide">
                           {k.keyPrefix}••••••••••••
                         </span>
                         <button
@@ -204,7 +204,7 @@ export default function DashboardView({
                       {/* Downstream target */}
                       <div className="text-xs text-zinc-500 font-mono truncate flex items-center gap-1.5 pt-0.5">
                         <span className="text-zinc-600">Proxy to:</span>
-                        <span className="text-zinc-400 truncate max-w-sm sm:max-w-md" title={k.downstreamUrl}>
+                        <span className="text-zinc-300 truncate max-w-sm sm:max-w-md" title={k.downstreamUrl}>
                           {k.downstreamUrl}
                         </span>
                       </div>
@@ -212,7 +212,7 @@ export default function DashboardView({
 
                     {/* Rate Limit Badge */}
                     <div className="flex flex-col items-end gap-2 shrink-0">
-                      <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-mono font-semibold bg-zinc-900 text-zinc-200 border border-zinc-800">
+                      <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-mono font-semibold bg-blue-500/10 text-blue-300 border border-blue-500/20">
                         {k.limit?.toLocaleString()} req/min
                       </span>
                     </div>
@@ -221,7 +221,7 @@ export default function DashboardView({
                   {/* USE IN FRONTEND (Gateway Proxy URL) */}
                   <div className="p-3 rounded-lg bg-zinc-950 border border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                     <div className="min-w-0 flex-1">
-                      <div className="text-[10px] font-mono font-semibold text-zinc-400 uppercase tracking-wider">
+                      <div className="text-[10px] font-mono font-semibold text-blue-400 uppercase tracking-wider">
                         GATEWAY ENDPOINT:
                       </div>
                       <div className="font-mono text-xs text-zinc-200 truncate mt-0.5 select-all" title={proxyUrl}>
@@ -235,8 +235,8 @@ export default function DashboardView({
                       })}
                       className={`shrink-0 text-xs px-3 py-1.5 rounded-md font-mono transition-all cursor-pointer ${
                         copiedProxyId === k._id
-                          ? 'bg-white text-black font-semibold'
-                          : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700'
+                          ? 'bg-emerald-500 text-black font-semibold'
+                          : 'bg-blue-600/80 hover:bg-blue-600 text-white shadow-sm'
                       }`}
                     >
                       {copiedProxyId === k._id ? 'Copied' : 'Copy URL'}
@@ -250,7 +250,7 @@ export default function DashboardView({
                         Created {k.createdAt ? new Date(k.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'recently'}
                       </span>
                       <span className="text-zinc-700">•</span>
-                      <span>
+                      <span className="text-zinc-400">
                         {k.totalRequests || 0} reqs processed
                       </span>
                     </div>
@@ -258,7 +258,7 @@ export default function DashboardView({
                     <button
                       onClick={() => revokeKey(k._id)}
                       disabled={revokingId === k._id}
-                      className="text-xs text-zinc-400 hover:text-white hover:bg-zinc-800 active:bg-zinc-700 px-2.5 py-1 rounded-lg border border-zinc-800 transition-all font-medium cursor-pointer disabled:opacity-50"
+                      className="text-xs text-rose-400/80 hover:text-rose-300 hover:bg-rose-500/10 active:bg-rose-500/20 px-2.5 py-1 rounded-lg border border-rose-500/20 transition-all font-medium cursor-pointer disabled:opacity-50"
                     >
                       {revokingId === k._id ? 'Revoking...' : 'Revoke'}
                     </button>
@@ -271,8 +271,8 @@ export default function DashboardView({
 
         {/* Footer info */}
         <div className="mt-8 pt-4 border-t border-zinc-800/60 flex items-center justify-between text-xs text-zinc-500 flex-wrap gap-2">
-          <span>Pass key in header: <code className="text-zinc-400 font-mono bg-zinc-800/60 px-1.5 py-0.5 rounded">x-api-key: live_...</code></span>
-          <span className="font-mono">Enforced with atomic Redis Token Bucket</span>
+          <span>Pass key in header: <code className="text-blue-300 font-mono bg-blue-500/10 border border-blue-500/20 px-1.5 py-0.5 rounded">x-api-key: live_...</code></span>
+          <span className="font-mono text-zinc-400">Enforced with atomic Redis Token Bucket</span>
         </div>
       </section>
     </div>

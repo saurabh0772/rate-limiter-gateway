@@ -16,8 +16,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       appearance={{
         baseTheme: dark,
         variables: {
-          colorPrimary: '#6366f1',
-          colorBackground: '#0e0e11',
+          colorPrimary: '#2563eb',
+          colorBackground: '#09090b',
           colorInputBackground: '#18181b',
           colorInputText: '#ffffff'
         }
