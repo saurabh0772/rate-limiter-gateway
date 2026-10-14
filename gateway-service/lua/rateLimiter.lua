@@ -3,7 +3,7 @@ if current == 1 then
   redis.call('EXPIRE', KEYS[1], ARGV[1])
 end
 if current > tonumber(ARGV[2]) then
-  return 0
+  return { 0, current }
 else
-  return 1
+  return { 1, current }
 end
