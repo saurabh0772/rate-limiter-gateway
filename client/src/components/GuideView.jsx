@@ -21,7 +21,7 @@ export default function GuideView({
   const nextjsMiddlewareCode = `import { NextResponse } from 'next/server';
 
 export async function middleware(req: any) {
-  const check = await fetch('${GATEWAY_URL}/api/check', {
+  const check = await fetch('https://rate-limiter-gateway-y5ff.onrender.com/api/check', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -136,7 +136,7 @@ export const config = {
                   <h4 className="font-bold text-sm text-[#1C1F1A]">Configure Environment</h4>
                 </div>
                 <p className="text-xs text-[#5F6359] leading-relaxed">
-                  Add key to <code className="text-[#C8623D] font-mono bg-white px-1 py-0.5 rounded border border-[#E5E2DA]">.env.local</code>
+                  Add <code className="text-[#C8623D] font-mono bg-white px-1 py-0.5 rounded border border-[#E5E2DA]">RATE_LIMITER_API_KEY</code> to <code className="text-[#C8623D] font-mono bg-white px-1 py-0.5 rounded border border-[#E5E2DA]">.env.local</code>
                 </p>
                 <div className="text-[11px] text-[#3F6E4E] font-mono bg-[#EDF4EF] p-2.5 rounded-lg border border-[#C9DEC9]">
                   Keys stay secure on server runtime
@@ -152,7 +152,7 @@ export const config = {
                   <h4 className="font-bold text-sm text-[#1C1F1A]">Create Middleware</h4>
                 </div>
                 <p className="text-xs text-[#5F6359] leading-relaxed">
-                  Create <code className="text-[#1C1F1A] font-mono bg-white px-1 py-0.5 rounded border border-[#E5E2DA]">middleware.ts</code> at root as shown below
+                  Add this file as <code className="text-[#1C1F1A] font-mono bg-white px-1 py-0.5 rounded border border-[#E5E2DA]">middleware.ts</code> in project root (not in src)
                 </p>
                 <div className="text-[11px] text-[#5F6359] font-mono bg-white p-2.5 rounded-lg border border-[#E5E2DA]">
                   Intercepts all /api/:path* calls
@@ -177,7 +177,7 @@ export const config = {
               </div>
 
               <div className="text-xs text-[#5F6359] font-medium">
-                Location: <strong className="text-[#1C1F1A]">PROJECT ROOT (where package.json is)</strong> OR <strong className="text-[#1C1F1A]">src/middleware.ts</strong> if you use a src folder.
+                Location: Add this file as <strong className="text-[#1C1F1A] font-mono">middleware.ts</strong> in <strong className="text-[#1C1F1A]">project root (not in src)</strong>.
               </div>
 
               {/* Example Folder Structure Box */}
@@ -188,7 +188,7 @@ export const config = {
                 <pre className="mt-2 text-[#FAF8F5] leading-relaxed select-all">
 {`my-app/
 ├── package.json
-├── middleware.ts  <-- CREATE HERE
+├── middleware.ts  <-- CREATE HERE (PROJECT ROOT, NOT IN SRC)
 ├── app/
 └── .env.local`}
                 </pre>
@@ -199,7 +199,7 @@ export const config = {
             <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2DA] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="space-y-0.5 flex-1 min-w-0">
                 <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-[#5F6359]">
-                  .env.local Example
+                  .env.local Example (Variable: RATE_LIMITER_API_KEY)
                 </span>
                 <div className="font-mono text-xs text-[#1C1F1A] font-semibold select-all truncate">
                   {envExample}
@@ -215,6 +215,21 @@ export const config = {
               >
                 {copiedEnv ? 'Copied .env' : 'Copy .env'}
               </button>
+            </div>
+
+            {/* Backend HTTP 429 status callout */}
+            <div className="p-4 rounded-xl bg-[#EDF4EF] border border-[#C9DEC9] flex items-start gap-3">
+              <span className="w-5 h-5 rounded-full bg-[#3F6E4E] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                ✓
+              </span>
+              <div className="space-y-1">
+                <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#2A4C36]">
+                  Native HTTP 429 Status Check
+                </div>
+                <p className="text-xs text-[#3F6E4E] leading-relaxed">
+                  The backend now correctly returns <strong>HTTP 429</strong> when rate limited, so this simple status check (<code className="bg-white/80 px-1 py-0.5 rounded text-[#2A4C36] font-mono font-bold">check.status === 429</code>) is sufficient without needing to parse or check response body flags.
+                </p>
+              </div>
             </div>
 
             {/* Code Snippet Box (middleware.ts) */}
@@ -244,17 +259,17 @@ export const config = {
               <div className="px-4 py-3 bg-[#161914] border-t border-[#333830] flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono text-[#E5E2DA] gap-2">
                 <div>
                   <span className="text-[#A8ABA4]">Endpoint: </span>
-                  <span className="text-[#EDF4EF] font-semibold select-all">{GATEWAY_URL}/api/check</span>
+                  <span className="text-[#EDF4EF] font-semibold select-all">https://rate-limiter-gateway-y5ff.onrender.com/api/check</span>
                 </div>
                 <div className="text-[11px] text-[#A8ABA4]">
-                  Zero proxy hops &bull; Execution latency &lt; 20ms
+                  Returns HTTP 429 when rate limited &bull; Execution latency &lt; 20ms
                 </div>
               </div>
             </div>
 
             {/* Note at bottom */}
-            <div className="p-4 rounded-xl bg-[#EDF4EF] border border-[#C9DEC9] text-[#3F6E4E] text-xs flex items-center gap-2.5 font-medium">
-              <span className="font-mono font-bold uppercase text-[11px] px-1.5 py-0.5 rounded bg-white border border-[#C9DEC9]">Note</span>
+            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2DA] text-[#5F6359] text-xs flex items-center gap-2.5 font-medium">
+              <span className="font-mono font-bold uppercase text-[11px] px-1.5 py-0.5 rounded bg-white border border-[#E5E2DA] text-[#1C1F1A]">Analytics</span>
               <span>Your requests will appear in Analytics dashboard under this API key</span>
             </div>
           </div>

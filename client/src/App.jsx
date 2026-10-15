@@ -658,14 +658,14 @@ curl -i -X GET "${sampleProxyUrl}" \\
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
                       <span className="text-[#5F6359] uppercase text-[10px] tracking-wider font-semibold font-mono">
-                        2. Create middleware.ts in root:
+                        2. Add this file as middleware.ts in project root (not in src):
                       </span>
                       <button
                         type="button"
                         onClick={() => copyText(`import { NextResponse } from 'next/server';
 
 export async function middleware(req: any) {
-  const check = await fetch('${GATEWAY_URL}/api/check', {
+  const check = await fetch('https://rate-limiter-gateway-y5ff.onrender.com/api/check', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -697,11 +697,11 @@ export const config = {
                         {copiedModalMiddleware ? 'Copied middleware.ts' : 'Copy middleware.ts'}
                       </button>
                     </div>
-                    <pre className="bg-[#1C1F1A] text-[#FAF8F5] p-2.5 rounded-lg text-[11px] font-mono overflow-x-auto max-h-32 leading-relaxed">
+                    <pre className="bg-[#1C1F1A] text-[#FAF8F5] p-2.5 rounded-lg text-[11px] font-mono overflow-x-auto max-h-36 leading-relaxed">
                       <code>{`import { NextResponse } from 'next/server';
 
 export async function middleware(req: any) {
-  const check = await fetch('${GATEWAY_URL}/api/check', {
+  const check = await fetch('https://rate-limiter-gateway-y5ff.onrender.com/api/check', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -710,16 +710,25 @@ export async function middleware(req: any) {
       path: req.nextUrl.pathname
     })
   });
+
   if (check.status === 429) {
-    return new Response(JSON.stringify({ error: 'Too Many Requests' }), { status: 429 });
+    return new Response(JSON.stringify({ error: 'Too Many Requests' }), { 
+      status: 429,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
+
   return NextResponse.next();
+}
+
+export const config = {
+  matcher: '/api/:path*',
 }`}</code>
                     </pre>
                   </div>
 
                   <div className="p-2 rounded-lg bg-[#EDF4EF] border border-[#C9DEC9] text-[#3F6E4E] text-[11px] font-medium font-sans">
-                    Your requests will appear in Analytics dashboard under this API key.
+                    Backend now correctly returns HTTP 429 when rate limited, so this simple status check is sufficient.
                   </div>
                 </div>
               ) : (
