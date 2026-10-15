@@ -16,6 +16,7 @@ export default function GuideView({
 
   // Use actual key prefix if available, else placeholder
   const activeKeyPrefix = keys && keys.length > 0 && keys[0].keyPrefix ? keys[0].keyPrefix : 'live_xxx';
+  const activeProjectId = keys && keys.length > 0 && keys[0].id ? keys[0].id : '[your-project-id]';
   const envExample = `RATE_LIMITER_API_KEY=${activeKeyPrefix}••••••••••••`;
 
   const nextjsMiddlewareCode = `import { NextResponse } from 'next/server';
@@ -284,10 +285,10 @@ export const config = {
                 Reverse Proxy Model
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-[#1C1F1A] tracking-tight">
-                Express &amp; Upstream API Integration (Proxy Model)
+                For Express Backend (Separate Backend)
               </h3>
               <p className="text-xs sm:text-sm text-[#5F6359] mt-1">
-                Point your frontend client or API consumers to Gateway URL <code className="font-mono text-[#C8623D] bg-[#FAF8F5] px-1.5 py-0.5 rounded border border-[#E5E2DA]">{GATEWAY_URL}/api/[project]/</code> as your upstream reverse proxy.
+                Point your frontend client or API consumers to Gateway URL <code className="font-mono text-[#C8623D] bg-[#FAF8F5] px-1.5 py-0.5 rounded border border-[#E5E2DA]">https://rate-limiter-gateway-y5ff.onrender.com/api/{activeProjectId}/posts</code> as your upstream reverse proxy.
               </p>
             </div>
 
@@ -346,7 +347,7 @@ export const config = {
                     // Direct: https://api.mybackend.com/posts
                   </div>
                   <div className="text-[#3F6E4E] font-semibold truncate">
-                    // Proxy: {GATEWAY_URL}/posts
+                    // Proxy: https://rate-limiter-gateway-y5ff.onrender.com/api/{activeProjectId}/posts
                   </div>
                 </div>
               </div>
@@ -374,7 +375,11 @@ export const config = {
             <div className="rounded-xl border border-[#333830] bg-[#1C1F1A] overflow-hidden shadow-2xs">
               <div className="flex items-center justify-between px-4 py-3 bg-[#161914] border-b border-[#333830]">
                 <div className="text-xs font-mono text-[#E5E2DA] font-medium">
-                  {guideTab === 'fetch' ? 'api-client.js (Native Fetch)' : guideTab === 'axios' ? 'api-service.js (Axios)' : 'terminal (cURL)'}
+                  {guideTab === 'fetch'
+                    ? 'frontend/src/services/api.js (Native Fetch)'
+                    : guideTab === 'axios'
+                    ? 'frontend/src/api/client.js (Axios)'
+                    : 'terminal (cURL)'}
                 </div>
 
                 <button
@@ -395,12 +400,101 @@ export const config = {
 
               <div className="px-4 py-3 bg-[#161914] border-t border-[#333830] flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono text-[#E5E2DA] gap-2">
                 <div>
-                  <span className="text-[#A8ABA4]">Production Host: </span>
-                  <span className="text-[#EDF4EF] font-semibold select-all">{GATEWAY_URL}</span>
+                  <span className="text-[#A8ABA4]">Gateway Base URL: </span>
+                  <span className="text-[#EDF4EF] font-semibold select-all">https://rate-limiter-gateway-y5ff.onrender.com/api/{activeProjectId}</span>
                 </div>
                 <div className="text-[11px] text-[#A8ABA4]">
-                  Local Development: <span className="text-[#FAF8F5] select-all">http://localhost:3000</span>
+                  Reverse Proxy Model &bull; Automatic Request Forwarding
                 </div>
+              </div>
+            </div>
+
+            {/* Step 0: Folder Structure Box */}
+            <div className="p-5 sm:p-6 rounded-2xl bg-[#FAF8F5] border border-[#E5E2DA] space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E5E2DA] pb-4">
+                <div>
+                  <div className="text-xs font-mono font-bold uppercase tracking-wider text-[#C8623D]">
+                    Project Organization
+                  </div>
+                  <div className="text-xl sm:text-2xl font-extrabold text-[#1C1F1A] font-mono tracking-tight mt-0.5">
+                    Step 0: Folder Structure
+                  </div>
+                </div>
+                <div className="text-xs font-mono px-3 py-1.5 rounded-lg bg-white border border-[#E5E2DA] text-[#5F6359]">
+                  Separate Frontend + Backend
+                </div>
+              </div>
+
+              <div className="space-y-3 text-xs text-[#5F6359]">
+                <p className="font-semibold text-[#1C1F1A]">
+                  If you have a separate frontend + backend architecture:
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="p-3.5 rounded-xl bg-white border border-[#E5E2DA] space-y-1">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#C8623D]">
+                      Frontend Client
+                    </span>
+                    <div className="font-mono text-xs text-[#1C1F1A] font-bold">
+                      frontend/src/services/api.js
+                    </div>
+                    <p className="text-[11px] text-[#5F6359]">
+                      (or <code className="font-mono text-[#1C1F1A]">frontend/src/api/client.js</code>) for your Fetch or Axios API client.
+                    </p>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-white border border-[#E5E2DA] space-y-1">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#3F6E4E]">
+                      Backend Middleware
+                    </span>
+                    <div className="font-mono text-xs text-[#1C1F1A] font-bold">
+                      backend/src/middleware/rateLimiterProxy.js
+                    </div>
+                    <p className="text-[11px] text-[#5F6359]">
+                      (if using custom proxy) inside your Express service.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-lg bg-[#FDF8EE] border border-[#F3E0BA] text-[#945D18] flex items-center gap-2 font-mono text-[11px] font-medium">
+                  <span className="font-bold text-sm">⚠️</span>
+                  <span><strong>Don't put api-client.js in project root.</strong> Keep all client-side code organized inside your <code className="bg-white/80 px-1 py-0.5 rounded font-bold">frontend/src/</code> directory.</span>
+                </div>
+              </div>
+
+              {/* Recommended Folder Tree */}
+              <div className="rounded-xl border border-[#333830] bg-[#1C1F1A] p-4 text-xs font-mono text-[#FAF8F5]">
+                <div className="text-[#A8ABA4] pb-2 border-b border-[#333830] text-[11px]">
+                  Recommended Folder Structure:
+                </div>
+                <pre className="mt-2 text-[#FAF8F5] leading-relaxed select-all">
+{`my-project/
+├── frontend/
+│   └── src/
+│       ├── api/
+│       │   └── client.js             <-- Axios / Fetch client goes here
+│       └── services/
+│           └── api.js                <-- (for fetch/axios client)
+├── backend/
+│   └── src/
+│       └── middleware/
+│           └── rateLimiterProxy.js   <-- (if using custom proxy)
+└── package.json`}
+                </pre>
+              </div>
+            </div>
+
+            {/* Note: Express vs Next.js */}
+            <div className="p-4 rounded-xl bg-[#FAF8F5] border border-[#E5E2DA] flex items-start gap-3 text-xs leading-relaxed">
+              <span className="w-5 h-5 rounded-full bg-[#C8623D] text-white text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                !
+              </span>
+              <div className="space-y-1">
+                <div className="font-mono font-bold uppercase tracking-wider text-[#C8623D] text-[11px]">
+                  Important Architectural Distinction
+                </div>
+                <p className="text-[#5F6359]">
+                  This Proxy Model is for <strong>Express backends</strong> (or separate backend services), <strong>not</strong> for Next.js frontend-only projects like Nigar-bdy. For Next.js, use <code className="text-[#1C1F1A] font-mono bg-white px-1 py-0.5 rounded border border-[#E5E2DA] font-bold">middleware.ts</code> at root with matcher <code className="text-[#1C1F1A] font-mono bg-white px-1 py-0.5 rounded border border-[#E5E2DA] font-bold">'/:path*'</code> (or <code className="text-[#1C1F1A] font-mono bg-white px-1 py-0.5 rounded border border-[#E5E2DA] font-bold">'/api/:path*'</code>) as configured in the <strong>Next.js (Vercel)</strong> tab.
+                </p>
               </div>
             </div>
           </div>

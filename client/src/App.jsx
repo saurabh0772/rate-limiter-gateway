@@ -265,11 +265,13 @@ function MainApp() {
   const currentNumericLimit = Number(form.limit) || 1;
   const sliderPercent = Math.min(100, Math.max(0, ((currentNumericLimit - 1) / (20000 - 1)) * 100));
 
-  const sampleKey = keys[0]?.keyPrefix ? `${keys[0].keyPrefix}••••••••` : 'live_YOUR_API_KEY';
-  const sampleProxyUrl = `${GATEWAY_URL}/posts`;
+  const sampleKey = keys[0]?.keyPrefix ? `${keys[0].keyPrefix}••••••••` : 'live_xxx';
+  const sampleProjectId = keys[0]?.id || '[your-project-id]';
+  const sampleProxyUrl = `https://rate-limiter-gateway-y5ff.onrender.com/api/${sampleProjectId}/posts`;
 
   const codeSnippets = {
-    fetch: `// Send request through our Rate Limiter Gateway
+    fetch: `// frontend/src/services/api.js
+// Send request through Rate Limiter Gateway
 fetch('${sampleProxyUrl}', {
   method: 'GET',
   headers: {
@@ -290,13 +292,15 @@ fetch('${sampleProxyUrl}', {
 
     axios: `import axios from 'axios';
 
-try {
-  const response = await axios.get('${sampleProxyUrl}', {
-    headers: {
-      'x-api-key': '${sampleKey}'
-    }
-  });
+// frontend/src/api/client.js
+const api = axios.create({
+  baseURL: 'https://rate-limiter-gateway-y5ff.onrender.com/api/${sampleProjectId}',
+  headers: { 'x-api-key': '${sampleKey}' }
+});
 
+// Example request with error handling:
+try {
+  const response = await api.get('/posts');
   console.log('Data:', response.data);
   console.log('Remaining tokens:', response.headers['x-ratelimit-remaining']);
 } catch (error) {
