@@ -53,7 +53,7 @@ export default function DashboardView({
             {totalProcessed.toLocaleString()}
           </div>
           <p className="mt-2 text-xs text-[#5F6359]">
-            Total proxy traffic forwarded
+            Total traffic processed
           </p>
         </div>
 
@@ -75,7 +75,6 @@ export default function DashboardView({
 
       {/* Main Keys List Container */}
       <section className="bg-white border border-[#E5E2DA] rounded-2xl p-6 sm:p-8 shadow-2xs relative">
-
         {/* Section Header with Search and Actions */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#E5E2DA]">
           <div>
@@ -86,7 +85,7 @@ export default function DashboardView({
               Your Generated API Keys
             </h2>
             <p className="text-xs sm:text-sm text-[#5F6359] mt-1">
-              All active keys provisioned under your account with target proxy endpoints and rate limits.
+              Active API keys provisioned under your account with configured project targets and rate limits.
             </p>
           </div>
 
@@ -153,7 +152,7 @@ export default function DashboardView({
               <p className="text-xs text-[#5F6359] max-w-sm mx-auto">
                 {searchTerm
                   ? 'Try clearing the search input to see all keys.'
-                  : 'You have not generated any API keys. Create your first key to route and rate-limit your requests.'}
+                  : 'You have not generated any API keys. Create your first key to start protecting your APIs.'}
               </p>
               {!searchTerm && (
                 <div className="pt-2">
@@ -169,11 +168,13 @@ export default function DashboardView({
           ) : (
             filteredKeys.map(k => {
               const proxyUrl = getProxyUrl(k.downstreamUrl);
+
               return (
                 <div
                   key={k._id}
                   className="p-5 rounded-xl bg-[#FAF8F5] border border-[#E5E2DA] hover:border-[#C8623D]/40 transition-all space-y-4 group"
                 >
+                  {/* Top Key Info Bar */}
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                     <div className="space-y-1.5 flex-1 min-w-0">
                       <div className="flex items-center gap-2.5 flex-wrap">
@@ -185,7 +186,7 @@ export default function DashboardView({
                         </span>
                       </div>
 
-                      {/* Prefix & Copy */}
+                      {/* API Key with Copy Button */}
                       <div className="flex items-center gap-2 pt-0.5">
                         <span className="font-mono text-xs text-[#5F6359] tracking-wide">
                           {k.keyPrefix}••••••••••••
@@ -200,15 +201,15 @@ export default function DashboardView({
                               ? 'bg-[#3F6E4E] text-white border-[#3F6E4E]'
                               : 'text-[#5F6359] hover:text-[#1C1F1A] bg-white hover:bg-[#F2F0E8] border-[#E5E2DA]'
                           }`}
-                          title="Copy key prefix"
+                          title="Copy API key prefix"
                         >
-                          {copiedPrefixId === k._id ? 'Copied' : 'Copy Prefix'}
+                          {copiedPrefixId === k._id ? 'Copied' : 'Copy Key'}
                         </button>
                       </div>
 
-                      {/* Downstream target */}
+                      {/* Project URL */}
                       <div className="text-xs text-[#5F6359] font-mono truncate flex items-center gap-1.5 pt-0.5">
-                        <span className="text-[#5F6359]">Proxy to:</span>
+                        <span className="text-[#5F6359]">Project URL:</span>
                         <span className="text-[#1C1F1A] truncate max-w-sm sm:max-w-md font-medium" title={k.downstreamUrl}>
                           {k.downstreamUrl}
                         </span>
@@ -223,7 +224,7 @@ export default function DashboardView({
                     </div>
                   </div>
 
-                  {/* USE IN FRONTEND (Gateway Proxy URL) */}
+                  {/* Gateway Proxy Endpoint */}
                   <div className="p-3 rounded-lg bg-white border border-[#E5E2DA] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5">
                     <div className="min-w-0 flex-1">
                       <div className="text-[10px] font-mono font-semibold text-[#5F6359] uppercase tracking-wider">
@@ -276,7 +277,7 @@ export default function DashboardView({
 
         {/* Footer info */}
         <div className="mt-8 pt-4 border-t border-[#E5E2DA] flex items-center justify-between text-xs text-[#5F6359] flex-wrap gap-2">
-          <span>Header: <code className="text-[#1C1F1A] font-mono bg-[#F2F0E8] px-1.5 py-0.5 rounded border border-[#E5E2DA]">x-api-key: live_...</code></span>
+          <span>Need integration code? Check the <strong className="text-[#1C1F1A]">How to Use Guide</strong> tab above.</span>
           <span className="font-mono">Enforced with atomic Redis Token Bucket</span>
         </div>
       </section>

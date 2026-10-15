@@ -48,7 +48,7 @@ function logRequest({ apiKeyDoc, req, status, statusCode, responseTimeMs }) {
 }
 
 const rateLimitMiddleware = async (req, res, next) => {
-  if (req.path.startsWith('/admin') || req.path.startsWith('/health') || req.path.startsWith('/webhooks')) {
+  if (req.path.startsWith('/admin') || req.path.startsWith('/health') || req.path.startsWith('/webhooks') || req.path.startsWith('/api/check')) {
     return next();
   }
 

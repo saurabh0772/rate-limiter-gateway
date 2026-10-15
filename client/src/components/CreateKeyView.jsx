@@ -68,20 +68,23 @@ export default function CreateKeyView({
             />
           </div>
 
-          {/* Downstream Backend URL Input */}
+          {/* Downstream Project URL Input */}
           <div>
-            <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center justify-between mb-1.5">
               <label className="block text-xs font-semibold text-[#5F6359] uppercase tracking-wider">
-                Backend Target URL
+                Your Project URL (for reference &amp; analytics)
               </label>
               <span className="text-[11px] text-[#5F6359] font-mono">Must use HTTPS</span>
             </div>
+            <p className="text-xs text-[#5F6359] mb-2 leading-relaxed">
+              For Next.js, enter your Vercel URL. For Express, enter your backend API URL.
+            </p>
             <input
               type="url"
               required
               value={form.downstreamUrl}
               onChange={e => handleUrlChange(e.target.value)}
-              placeholder="https://api.mybackend.com"
+              placeholder="https://your-app.vercel.app or https://api.mybackend.com"
               className={`w-full bg-[#FAF8F5] border ${
                 urlWarning ? 'border-[#F5C7C3] focus:border-[#B33B32]' : 'border-[#E5E2DA] focus:border-[#C8623D]'
               } focus:ring-1 focus:ring-[#C8623D] rounded-xl px-4 py-3 text-sm text-[#1C1F1A] placeholder:text-[#5F6359]/60 outline-none transition-all font-mono`}
@@ -93,7 +96,7 @@ export default function CreateKeyView({
             )}
             {form.downstreamUrl && !urlWarning && (
               <p className="mt-1.5 text-xs text-[#5F6359] font-mono truncate">
-                Gateway proxy will route to: <span className="text-[#1C1F1A] font-medium">{getProxyUrl(form.downstreamUrl)}</span>
+                Reference Project Target: <span className="text-[#1C1F1A] font-medium">{form.downstreamUrl}</span>
               </p>
             )}
           </div>
@@ -265,7 +268,7 @@ export default function CreateKeyView({
                   </div>
 
                   <div className="text-[11px] font-mono text-[#5F6359] truncate">
-                    Target: <span className="text-[#1C1F1A] font-medium">{k.downstreamUrl}</span>
+                    Project URL: <span className="text-[#1C1F1A] font-medium">{k.downstreamUrl}</span>
                   </div>
 
                   <div className="p-2 rounded-lg bg-white border border-[#E5E2DA] flex items-center justify-between gap-2">

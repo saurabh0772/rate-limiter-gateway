@@ -12,6 +12,7 @@ require('./models/ApiKey');
 require('./models/RequestLog');
 
 const adminRoutes = require('./routes/admin');
+const gatewayRoutes = require('./src/routes/gateway.routes');
 const rateLimitMiddleware = require('./middlewares/rateLimitMiddleware');
 
 const app = express();
@@ -71,6 +72,9 @@ mongoose.connect(process.env.MONGO_URL)
 app.get('/health', (req, res) => res.json({ status: 'ok', uptime: process.uptime() }));
 
 app.use('/admin', adminRoutes);
+
+// SDK Check Model endpoint (for Next.js / Fullstack apps)
+app.use('/api', gatewayRoutes);
 
 // Data plane
 app.use(rateLimitMiddleware);

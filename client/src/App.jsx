@@ -45,6 +45,9 @@ function MainApp() {
   const [copiedProxyId, setCopiedProxyId] = useState(null);
   const [copiedModalProxy, setCopiedModalProxy] = useState(false);
   const [copiedModalHeader, setCopiedModalHeader] = useState(false);
+  const [copiedModalEnv, setCopiedModalEnv] = useState(false);
+  const [copiedModalMiddleware, setCopiedModalMiddleware] = useState(false);
+  const [modalGuideTab, setModalGuideTab] = useState('nextjs');
   const [copiedGuideSnippet, setCopiedGuideSnippet] = useState(false);
   const [revokingId, setRevokingId] = useState(null);
 
@@ -218,6 +221,9 @@ function MainApp() {
       setCopiedKey(false);
       setCopiedModalProxy(false);
       setCopiedModalHeader(false);
+      setCopiedModalEnv(false);
+      setCopiedModalMiddleware(false);
+      setModalGuideTab('nextjs');
       setForm({ name: '', downstreamUrl: '', limit: 100 });
       setUrlWarning('');
       await fetchKeys();
@@ -329,6 +335,8 @@ curl -i -X GET "${sampleProxyUrl}" \\
         return 'bg-[#FDF8EE] text-[#945D18] border-[#F3E0BA] font-mono';
       case 'DELETE':
         return 'bg-[#FDF2F0] text-[#B33B32] border-[#F5C7C3] font-mono';
+      case 'CHECK':
+        return 'bg-[#F0EFFE] text-[#5B46E5] border-[#D6D2FA] font-mono';
       default:
         return 'bg-[#F2F0E8] text-[#5F6359] border-[#E5E2DA] font-mono';
     }
@@ -510,6 +518,7 @@ curl -i -X GET "${sampleProxyUrl}" \\
             copiedGuideSnippet={copiedGuideSnippet}
             setCopiedGuideSnippet={setCopiedGuideSnippet}
             GATEWAY_URL={GATEWAY_URL}
+            keys={keys}
           />
         )}
       </main>
@@ -565,7 +574,7 @@ curl -i -X GET "${sampleProxyUrl}" \\
               </div>
             </div>
 
-            {/* Rate Limited URL & Backend Details inside Modal */}
+            {/* Project URL & Rate Limit Details */}
             <div className="bg-[#FAF8F5] border border-[#E5E2DA] rounded-xl p-4 text-xs space-y-3 font-mono">
               <div className="flex justify-between items-center text-[#5F6359] pb-2 border-b border-[#E5E2DA]">
                 <span>Key Name:</span>
@@ -576,51 +585,190 @@ curl -i -X GET "${sampleProxyUrl}" \\
                 <span className="text-[#1C1F1A] font-semibold">{newKeyModal.limit?.toLocaleString()} req/min</span>
               </div>
 
-              {/* Original Backend */}
+              {/* Your Project URL */}
               <div className="space-y-1">
-                <span className="text-[#5F6359] uppercase text-[10px] tracking-wider font-semibold">Original Backend Target:</span>
-                <div className="text-[#1C1F1A] break-all select-all">{newKeyModal.downstreamUrl}</div>
-              </div>
-
-              {/* Rate Limited URL */}
-              <div className="space-y-1 pt-1">
                 <span className="text-[#5F6359] uppercase text-[10px] tracking-wider font-semibold">
-                  Rate Limited Proxy URL:
+                  Your Project URL (for reference &amp; analytics):
                 </span>
-                <div className="flex items-center justify-between gap-2 bg-white p-2.5 rounded-lg border border-[#E5E2DA]">
-                  <span className="text-[#1C1F1A] break-all select-all font-semibold">
-                    {getProxyUrl(newKeyModal.downstreamUrl)}
-                  </span>
+                <div className="text-[#1C1F1A] break-all select-all font-semibold font-mono">{newKeyModal.downstreamUrl}</div>
+                <p className="text-[11px] text-[#5F6359] font-sans">
+                  For Next.js, enter your Vercel URL. For Express, enter your backend API URL.
+                </p>
+              </div>
+            </div>
+
+            {/* Integration Model Tabs in Modal */}
+            <div className="border border-[#E5E2DA] rounded-xl p-4 bg-white space-y-3 text-xs">
+              <div className="flex items-center justify-between pb-2 border-b border-[#E5E2DA]">
+                <div className="flex items-center gap-1 bg-[#FAF8F5] p-1 rounded-lg border border-[#E5E2DA]">
                   <button
-                    onClick={() => copyText(getProxyUrl(newKeyModal.downstreamUrl), setCopiedModalProxy)}
-                    className={`shrink-0 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all cursor-pointer ${copiedModalProxy
-                        ? 'bg-[#3F6E4E] text-white'
-                        : 'bg-[#F2F0E8] hover:bg-[#E5E2DA] text-[#1C1F1A] border border-[#E5E2DA]'
-                      }`}
+                    type="button"
+                    onClick={() => setModalGuideTab('nextjs')}
+                    className={`px-2.5 py-1 rounded-md font-mono text-xs font-semibold cursor-pointer transition-all ${
+                      modalGuideTab === 'nextjs'
+                        ? 'bg-[#C8623D] text-white shadow-2xs'
+                        : 'text-[#5F6359] hover:text-[#1C1F1A]'
+                    }`}
                   >
-                    {copiedModalProxy ? 'Copied' : 'Copy'}
+                    ⚡ Next.js Integration
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setModalGuideTab('express')}
+                    className={`px-2.5 py-1 rounded-md font-mono text-xs font-semibold cursor-pointer transition-all ${
+                      modalGuideTab === 'express'
+                        ? 'bg-[#C8623D] text-white shadow-2xs'
+                        : 'text-[#5F6359] hover:text-[#1C1F1A]'
+                    }`}
+                  >
+                    🔀 Express Integration
                   </button>
                 </div>
+                <span className="text-[10px] font-mono text-[#5F6359]">
+                  {modalGuideTab === 'nextjs' ? 'SDK Check Model' : 'Proxy Model'}
+                </span>
               </div>
 
-              {/* Required Header */}
-              <div className="space-y-1 pt-1">
-                <span className="text-[#5F6359] uppercase text-[10px] tracking-wider font-semibold">Required Header:</span>
-                <div className="flex items-center justify-between gap-2 bg-white p-2.5 rounded-lg border border-[#E5E2DA]">
-                  <span className="text-[#1C1F1A] break-all select-all font-mono">
-                    x-api-key: {newKeyModal.key}
-                  </span>
-                  <button
-                    onClick={() => copyText(`x-api-key: ${newKeyModal.key}`, setCopiedModalHeader)}
-                    className={`shrink-0 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all cursor-pointer ${copiedModalHeader
-                        ? 'bg-[#3F6E4E] text-white'
-                        : 'bg-[#F2F0E8] hover:bg-[#E5E2DA] text-[#1C1F1A] border border-[#E5E2DA]'
-                      }`}
-                  >
-                    {copiedModalHeader ? 'Copied' : 'Copy'}
-                  </button>
+              {modalGuideTab === 'nextjs' ? (
+                <div className="space-y-3 animate-in fade-in duration-100">
+                  {/* .env example */}
+                  <div className="space-y-1">
+                    <span className="text-[#5F6359] uppercase text-[10px] tracking-wider font-semibold font-mono">
+                      1. Add to .env.local:
+                    </span>
+                    <div className="flex items-center justify-between gap-2 bg-[#FAF8F5] p-2 rounded-lg border border-[#E5E2DA]">
+                      <span className="text-[#1C1F1A] break-all select-all font-mono font-semibold text-xs">
+                        RATE_LIMITER_API_KEY={newKeyModal.key}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => copyText(`RATE_LIMITER_API_KEY=${newKeyModal.key}`, setCopiedModalEnv)}
+                        className={`shrink-0 px-2.5 py-1 rounded-md text-[11px] font-semibold font-mono transition-all cursor-pointer ${
+                          copiedModalEnv
+                            ? 'bg-[#3F6E4E] text-white'
+                            : 'bg-white hover:bg-[#F2F0E8] text-[#1C1F1A] border border-[#E5E2DA]'
+                        }`}
+                      >
+                        {copiedModalEnv ? 'Copied' : 'Copy'}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* middleware.ts snippet preview */}
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#5F6359] uppercase text-[10px] tracking-wider font-semibold font-mono">
+                        2. Create middleware.ts in root:
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => copyText(`import { NextResponse } from 'next/server';
+
+export async function middleware(req: any) {
+  const check = await fetch('${GATEWAY_URL}/api/check', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      apiKey: process.env.RATE_LIMITER_API_KEY,
+      ip: req.headers.get('x-forwarded-for') || req.ip || '127.0.0.1',
+      path: req.nextUrl.pathname
+    })
+  });
+
+  if (check.status === 429) {
+    return new Response(JSON.stringify({ error: 'Too Many Requests' }), { 
+      status: 429,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: '/api/:path*',
+}`, setCopiedModalMiddleware)}
+                        className={`px-2 py-0.5 rounded text-[10px] font-semibold font-mono transition-all cursor-pointer ${
+                          copiedModalMiddleware
+                            ? 'bg-[#3F6E4E] text-white'
+                            : 'bg-[#C8623D] hover:bg-[#B95431] text-white'
+                        }`}
+                      >
+                        {copiedModalMiddleware ? 'Copied middleware.ts' : 'Copy middleware.ts'}
+                      </button>
+                    </div>
+                    <pre className="bg-[#1C1F1A] text-[#FAF8F5] p-2.5 rounded-lg text-[11px] font-mono overflow-x-auto max-h-32 leading-relaxed">
+                      <code>{`import { NextResponse } from 'next/server';
+
+export async function middleware(req: any) {
+  const check = await fetch('${GATEWAY_URL}/api/check', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      apiKey: process.env.RATE_LIMITER_API_KEY,
+      ip: req.headers.get('x-forwarded-for') || req.ip || '127.0.0.1',
+      path: req.nextUrl.pathname
+    })
+  });
+  if (check.status === 429) {
+    return new Response(JSON.stringify({ error: 'Too Many Requests' }), { status: 429 });
+  }
+  return NextResponse.next();
+}`}</code>
+                    </pre>
+                  </div>
+
+                  <div className="p-2 rounded-lg bg-[#EDF4EF] border border-[#C9DEC9] text-[#3F6E4E] text-[11px] font-medium font-sans">
+                    Your requests will appear in Analytics dashboard under this API key.
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="space-y-3 font-mono animate-in fade-in duration-100">
+                  {/* Rate Limited URL */}
+                  <div className="space-y-1">
+                    <span className="text-[#5F6359] uppercase text-[10px] tracking-wider font-semibold">
+                      Rate Limited Proxy URL:
+                    </span>
+                    <div className="flex items-center justify-between gap-2 bg-[#FAF8F5] p-2 rounded-lg border border-[#E5E2DA]">
+                      <span className="text-[#1C1F1A] break-all select-all font-semibold text-xs">
+                        {getProxyUrl(newKeyModal.downstreamUrl)}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => copyText(getProxyUrl(newKeyModal.downstreamUrl), setCopiedModalProxy)}
+                        className={`shrink-0 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all cursor-pointer ${
+                          copiedModalProxy
+                            ? 'bg-[#3F6E4E] text-white'
+                            : 'bg-white hover:bg-[#F2F0E8] text-[#1C1F1A] border border-[#E5E2DA]'
+                        }`}
+                      >
+                        {copiedModalProxy ? 'Copied' : 'Copy'}
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Required Header */}
+                  <div className="space-y-1">
+                    <span className="text-[#5F6359] uppercase text-[10px] tracking-wider font-semibold">Required Header:</span>
+                    <div className="flex items-center justify-between gap-2 bg-[#FAF8F5] p-2 rounded-lg border border-[#E5E2DA]">
+                      <span className="text-[#1C1F1A] break-all select-all font-mono text-xs">
+                        x-api-key: {newKeyModal.key}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => copyText(`x-api-key: ${newKeyModal.key}`, setCopiedModalHeader)}
+                        className={`shrink-0 px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all cursor-pointer ${
+                          copiedModalHeader
+                            ? 'bg-[#3F6E4E] text-white'
+                            : 'bg-white hover:bg-[#F2F0E8] text-[#1C1F1A] border border-[#E5E2DA]'
+                        }`}
+                      >
+                        {copiedModalHeader ? 'Copied' : 'Copy'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Done Button */}
